@@ -39,3 +39,15 @@ FDR permet de visualiser l'arbre de transition d'une expression de processus CSP
 ## Alloy
 
 [Site web](https://alloytools.org/)
+
+## Atelier B
+
+Outil permettant de gérer des projets de développement en B, de la spécification à l'implémentation, avec preuve de raffinement et correction.
+
+[Site web](https://www.atelierb.eu/)
+
+## Event-B et Rodin
+
+Outil permettant de gérer des projets de développement en Event-B avec preuve de raffinement. Intègre ProB et plusieurs autre plugins.
+
+[Site web](https://www.event-b.org/)
