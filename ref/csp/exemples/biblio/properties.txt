@@ -1,0 +1,19 @@
+1. A book can always be acquired by the library when it is not currently acquired.
+2. A book cannot be acquired by the library if it is already acquired.
+3. An acquired book can be discarded only if it is neither lent nor reserved.
+4. A person must be a member of the library in order to borrow a book.
+5. A book can be reserved only if it has been borrowed or already reserved by
+another member.
+6. A book cannot be reserved by the member who is borrowing it.
+7. A book cannot be reserved by a member who is reserving it.
+8. A book cannot be lent to a member if it is reserved.
+9. A member cannot renew a loan if the book is reserved.
+10. A member is allowed to take a reserved book only if he owns the oldest reservation.
+11. A book can be taken only if it is not borrowed.
+12. Anyone who has reserved a book can cancel the reservation at anytime before he
+takes it.
+13. A member can relinquish library membership only when all his loans have been
+returned and all his reservations have either been used or canceled.
+14. Ultimately, there is always a procedure that enables a member to leave the library.
+15. A member cannot borrow more than the loan limit defined at the system level for
+all users.

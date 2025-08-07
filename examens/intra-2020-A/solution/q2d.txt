@@ -1,0 +1,34 @@
+Supposons I & P
+
+I = y : -2..2
+P = x : -1..1
+
+Montrons [SELECT x <= 0 THEN y := -x WHEN x >= 0 THEN y := x END](y : -2..2)
+
+    [SELECT x <= 0 THEN y := -x WHEN x >= 0 THEN y := x END](y : -2..2)
+<=>
+    (x <= 0 => [y := -x](y : -2..2)) & (x >= 0 => [y := x](y : -2..2))
+<=>
+    (x <= 0 => (-x : -2..2)) & (x >= 0 => (x : -2..2))
+
+Montrons le 1er conjunct
+
+Supposons x <= 0 et montrons
+
+    -x : -2..2
+<=
+    x : -1..1
+<=
+    P
+
+Montrons le 2e conjunct
+
+Supposons x >= 0 et montrons
+
+    x : -2..2
+<=
+    x : -1..1
+<=
+    P
+
+Donc l'invariant est préservé.

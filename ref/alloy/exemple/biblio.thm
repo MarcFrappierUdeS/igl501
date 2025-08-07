@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view>
+
+<projection> <type name="State"/> </projection>
+
+<defaultnode/>
+
+<defaultedge/>
+
+<node>
+   <type name="acquire"/>
+   <type name="cancel"/>
+   <type name="discard"/>
+   <type name="init"/>
+   <type name="Int"/>
+   <type name="join"/>
+   <type name="leave"/>
+   <type name="lend"/>
+   <type name="renew"/>
+   <type name="reserve"/>
+   <type name="return"/>
+   <type name="State"/>
+   <type name="String"/>
+   <type name="take"/>
+   <type name="univ"/>
+   <type name="open$3/Ord"/>
+   <type name="ordering/Ord"/>
+   <type name="seq/Int"/>
+   <set name="$showTrace_s" type="State"/>
+   <set name="$Transition_b" type="Book"/>
+   <set name="$Transition_m" type="Member"/>
+   <set name="First" type="ordering/Ord"/>
+   <set name="Next" type="ordering/Ord"/>
+</node>
+
+<node hideunconnected="no">
+   <set name="books" type="Book"/>
+   <set name="members" type="Member"/>
+</node>
+
+<node hideunconnected="no" showinattr="no">
+   <set name="event" type="Event"/>
+</node>
+
+<node hideunconnected="yes">
+   <type name="Book"/>
+   <type name="Event"/>
+   <type name="Member"/>
+</node>
+
+<node visible="no">
+   <type name="Constants"/>
+</node>
+
+</view>
+
+</alloy>

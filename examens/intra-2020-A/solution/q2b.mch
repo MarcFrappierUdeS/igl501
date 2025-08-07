@@ -1,0 +1,16 @@
+MACHINE q2b
+VARIABLES y
+
+INVARIANT
+  y : -2..0
+
+INITIALISATION y := 0
+
+OPERATIONS
+
+B(x) = PRE x : -2..-1 & x < y THEN CHOICE y:=x OR y:=x+1 END END
+
+END
+
+
+

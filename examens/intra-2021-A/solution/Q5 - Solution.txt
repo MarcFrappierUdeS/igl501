@@ -1,0 +1,58 @@
+Q5 - Solution
+
+Found cbc counter example for Op1
+% ===> Operation: Op1(3)
+% ===> State: ( x=0 )
+% ===> NewState: ( x=-3 )
+no_specialized_invariant_info_for_op(Op2)
+% Runtime: 0 ms (with gc: 0 ms, walltime: 1 ms)
+
+No cbc counter example for Op2
+no_specialized_invariant_info_for_op(Op3)
+% Runtime: 1 ms (with gc: 1 ms, walltime: 0 ms)
+
+No cbc counter example for Op3
+no_specialized_invariant_info_for_op(Op4)
+% Runtime: 1 ms (with gc: 1 ms, walltime: 0 ms)
+
+Found cbc counter example for Op4
+% ===> Operation: Op4(-2)
+% ===> State: ( x=0 )
+% ===> NewState: ( x=-2 )
+no_specialized_invariant_info_for_op(Op5)
+% Runtime: 0 ms (with gc: 0 ms, walltime: 0 ms)
+
+Found cbc counter example for Op5
+% ===> Operation: Op5
+% ===> State: ( x=0 )
+% ===> NewState: ( x=-1 )
+
+Preuve de Op2
+
+  I & P => [S]I
+<=>
+  x : 0..2 & y : 0..x => [x := x-y]x : 0..2
+<=>
+  x : 0..2 & y : 0..x => x-y : 0..2
+
+Suppons x : 0..2 & y : 0..x
+Alors la formule x-y : 0..2 est satisfaite pour toutes ces valeurs de x et y
+
+Preuve de Op3
+
+  I & P => [S]I
+<=>
+  x : 0..2 => [ANY y WHERE y : 0..x THEN x := x-y END] x: 0..2
+<=>
+  x : 0..2 => !y.(y : 0..x => [x := x-y] x: 0..2
+<=>
+  x : 0..2 => !y.(y : 0..x => x-y: 0..2
+
+Supposons x : 0..2 et montront 
+
+!y.(y : 0..x => x-y: 0..2)
+
+Supposons y : 0..x et montrons x-y: 0..2
+
+Il s'agit de la même obligation de preuve que Op2.
+Cette formule est satisfaite pour les valeurs de x : 0..2 et y : 0..x.

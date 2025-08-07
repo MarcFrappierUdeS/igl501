@@ -1,0 +1,37 @@
+nbCoffre = 2
+clebanque = 0
+COFFRE = {1..nbCoffre}
+CLE = union(COFFRE,{clebanque})
+
+channel inserer, enlever : COFFRE . CLE
+channel ouvrir, fermer  : COFFRE
+
+SV_CLEACT = {| inserer, enlever |}
+SV_PORTEACT = {| ouvrir |}
+
+SV_Cle(k) =
+    inserer?c:COFFRE!k -> enlever!c!k -> SV_Cle(k)
+
+SV_Coffre(c) = SV_Serrure(c) ||| SV_Serrure(c)
+
+SV_Serrure(c) = 
+    inserer!c?k:CLE -> enlever!c!k -> SV_Serrure(c)
+
+SV_Porte(c) = ouvrir!c -> fermer!c -> SV_Porte(c)
+
+SV_PorteCTRL(c,s) = 
+    (s=={clebanque,c} & ouvrir!c -> SV_PorteCTRL(c,s))
+[]  (inserer!c?k:CLE -> SV_PorteCTRL(c,union(s,{k})))
+[]  (enlever!c?k:CLE -> SV_PorteCTRL(c,diff(s,{k})))
+
+SV_MAIN =
+    ( ( ||| k : CLE @ SV_Cle(k) )
+        [| SV_CLEACT |]
+      ( ||| c : COFFRE @ SV_Coffre(c) )
+    )
+[| SV_CLEACT |]
+    ( ( ||| c : COFFRE @ SV_Porte(c) )
+        [| SV_PORTEACT |]
+      ( ||| c : COFFRE @ SV_PorteCTRL(c,{}) )
+    )
+

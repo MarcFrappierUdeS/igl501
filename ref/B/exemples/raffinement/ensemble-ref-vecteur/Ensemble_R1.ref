@@ -1,0 +1,102 @@
+REFINEMENT Ensemble_R1
+REFINES Ensemble
+
+VARIABLES v,d
+
+INVARIANT
+  v : 1..k --> E
+& d : 0..k
+& d = card(e)
+/* invariant collage */
+/* première version */
+/*
+& !x.(
+       x : E
+     =>
+       (
+           x : e
+       <=>
+           #i.(i : 1..d & v(i) = x))
+       )
+*/
+/* deuxième version */
+& e = ran((1..d) <| v)
+
+INITIALISATION
+
+   v := (1..k) * {e1}
+|| d := 0
+
+DEFINITIONS
+ 
+  appartient(x) == ( #i.(i : 1..d & v(i) = x) )
+
+OPERATIONS
+/* Opération abstraite recopiée ici pour simplifier la lecture
+    Add(x) =
+      PRE
+          x:E
+        & x /: e
+        & card(e) < k
+      THEN
+        e := e \/ {x}
+      END
+*/
+
+  Add(x) =
+    PRE
+        x:E
+      & not (appartient(x))
+      & d < k
+    THEN
+          v(d+1) := x
+      ||  d := d+1
+    END
+;
+/*
+    Del(x) =
+      PRE
+          x:E
+        & x : e
+      THEN
+        e := e - {x}
+      END
+*/
+
+  Del(x) = 
+    PRE
+      x:E & appartient(x)
+    THEN
+      ANY
+        y
+      WHERE
+          y : 1..d
+        & v(y) = x
+      THEN    
+            v :=      1..(y-1) <| v 
+                  \/
+                      (succ ; ((y+1)..d <| v))
+                  \/
+                      ((d..k) <| v)
+         || d := d-1
+      END
+    END
+;
+/*
+    r <-- In(x) =
+      PRE
+        x : E
+      THEN
+        r := bool(x : e)
+      END
+*/
+
+  r <-- In(x) =
+    PRE
+      x : E
+    THEN
+      r := bool(appartient(x))
+    END
+
+END
+

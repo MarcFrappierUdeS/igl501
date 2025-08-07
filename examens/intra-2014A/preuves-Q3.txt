@@ -1,0 +1,80 @@
+﻿Initialisation: 
++++++++++++++++
+
+Il faut prouver
+
+!a . a : A => [x:=a||z:=ID(A)](x : 1..3 & z : A >-->> A)
+
+Éliminons le quantificateur, car a n'est pas libre dans les hypothèse.
+Posons a : A et prouvons
+
+  [x:=a||z:=ID(A)](x : 1..3 & z : A >-->> A)
+<=>
+C1:    a : 1..3
+C2:  & ID(A) : A >-->> A)
+
+Preuve de C1: on a : A = 0..1. Si a = 0, alors 0 /: 1..3, donc C1 est faux.
+Donc, l'initialisation ne préserve pas l'invariant.
+
+OP1 
++++++++++++++++
+
+Il faut prouver
+
+H:  x : 1..3 & z : A >-->> A & x : 1..2
+  =>
+C1: !a . a : A => [x:=x+1||z(a):=a](x : 1..3 & z : A >-->> A)
+
+Supposons H et propuvions C1
+
+  !a . a : A => [x:=x+1||z(a):=a](x : 1..3 & z : A >-->> A)
+<=>
+  !a . a : A => (x+1 : 1..3 & z<+{a|->a} : A >-->> A)
+
+Éliminons le quantificateur, car a n'est pas libre dans les hypothèse.
+Posons a : A et prouvons
+
+C1: x+1 : 1..3
+C2: z<+{a|->a} : A >-->> A
+
+Preuve de C1: on a x : 1..2 en hypothèse, donc x+1 : 2..3 <: 1..3, donc C1 est vrai.
+
+Preuve de C2: faux dans le cas suivant: Z = {0|->1, 1|->0} et a = 1.
+On obtient {0|->1, 1|->1} : A >-->> A, ce qui est faux, car cette fonction n'est pas injective, ni surjective.
+
+Donc, l'opération ne préserve pas l'invariant.
+
+OP3
++++++++++++++
+
+Il faut prouver
+
+H:  x : 1..3 & z : A >-->> A & y : -1..1 & y < x
+  =>
+C1:   y > 0 => [x := y+1](x : 1..3 & z : A >-->> A)
+    &
+C2:   y > x => [x := y](x : 1..3 & z : A >-->> A)
+
+Posons H; prouvons C1 et C2 séparément.
+
+Preuve de C1
+
+Posons y > 0 et prouvons 
+
+  [x := y+1](x : 1..3 & z : A >-->> A)
+<=>
+  y+1 : 1..3 & z : A >-->> A
+  
+Des hypothèses, on a y > 0 & y < x & x : 1..3, ce qui permet de déduire y : 1..2, donc que y+1 : 2..3 <: 1..3, donc y+1 : 1..3.  z : A >-->> A est en hypothèse, donc vrai.
+
+Preuve de C2
+
+Posons y > x et prouvons
+
+  [x := y](x : 1..3 & z : A >-->> A)
+<=>
+  y : 1..3 & z : A >-->> A
+
+y > x & y < x, ce qui permet de déduire une contradiction en hypothèse, donc la conclusion est vrai.
+
+Donc l'opération préserve l'invariant.

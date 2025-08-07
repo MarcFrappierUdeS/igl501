@@ -1,0 +1,6 @@
+include "coffre-pure.csp"
+include "coffre-state-variable.csp"
+
+assert MAIN  [T= SV_MAIN
+assert SV_MAIN  [T= MAIN
+

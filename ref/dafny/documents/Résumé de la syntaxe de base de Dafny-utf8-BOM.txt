@@ -1,0 +1,110 @@
+﻿Résumé de la syntaxe de base de Dafny
+/* d'autres constructions sont aussi disponibles; voir le manuel de référence */
+
+types
+
+	bool
+	nat
+	int
+	real
+	char
+	array<type>
+
+déclaration de variables
+
+	var v : Type := valeur initiale
+	var a : array<int>
+
+opérateurs booléens
+
+	<==>	equivalence (if and only if)
+	==>	implication (implies)
+	<==	reverse implication (follows from)
+	&&	conjunction (and)
+	||	disjunction (or)
+	!	negation (not)
+	forall x : nat | condition
+	∀ x : nat | condition
+	forall x :: condition
+	∀ x :: condition
+	exists x : nat | condition
+	∃ x : nat | condition
+	exists x :: condition
+	∃ x :: condition
+
+opérateurs arithmétiques comparaisons
+
+	<	less than
+	<=	at most
+	>=	at least
+	>	greater than
+	A <= B < C == D <= E
+
+opérateurs arithmétiques
+
+	+	addition (plus)
+	-	subtraction (minus)
+	*	multiplication (times)
+	/	division (divided by)
+	%	modulus (mod)
+	-	negation (unary minus)
+
+méthode
+
+	method maMethode(a: array<int>, x : int) returns (y : nat)
+	   requires condition
+	   ensures condition
+	{
+	instructions
+	}
+
+prédicat
+
+	predicate monPredicat(a: array<int>, i : int)
+	   reads a
+	   requires condition
+	{
+	condition
+	}
+
+fonction
+
+	function fib(a: array<int>, x: type, y : type): type
+	   reads a
+	   requires condition
+	{
+	expression
+	}
+
+instructions
+
+    x := valeur;
+    x,y := v1,v2; /* affectations multiples simultanées */
+    if condition then expression else expression /* dans une fonction */
+    if condition {...} else {...} /* dans une méthode */
+    while condition
+        invariant condition
+        invariant condition
+        decreases expression_nat
+    {
+    ...
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

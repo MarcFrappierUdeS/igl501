@@ -1,0 +1,33 @@
+nbProcessus = 2
+nbProcesseur = 2
+
+PROCESSUS = {1..nbProcessus}
+PROCESSEUR = {1..nbProcesseur}
+
+channel creer, term : PROCESSUS
+channel aff, lib : PROCESSUS.PROCESSEUR
+
+SYNC = {| aff, lib |}
+
+
+Processus(p) =
+  creer!p -> EstCree(p)
+
+EstCree(p) =
+  aff!p?r:PROCESSEUR -> EstAffecte(p,r)
+
+EstAffecte(p,r) =
+    lib!p!r ->
+    (
+       aff!p?r2:PROCESSEUR -> EstAffecte(p,r2)
+    []
+       term!p -> Processus(p)
+    )
+
+Processeur(r) =
+  aff?p:PROCESSUS!r ->lib!p!r -> Processeur(r)
+
+MAIN =
+        (||| p : PROCESSUS @ Processus(p))
+    [| SYNC |]
+        (||| r : PROCESSEUR @ Processeur(r))

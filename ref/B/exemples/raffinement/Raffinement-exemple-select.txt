@@ -1,0 +1,64 @@
+Raffinement en B
+
+op = SELECT x > 1 THEN x :=1 END
+op' = x' := 1 
+
+Invariant de collage J : x'= x
+
+Rappel de l'obligation de preuve pour le raffinement d'une opération
+
+	I & J & P => P' & [S' ] not [S] not J
+
+Vérifions si op'raffine op
+
+Supposons x = x'
+
+	[S' ] not [S] not J 
+<=>
+	[x':=1 ] not [SELECT x > 1 THEN x :=1 END] not x = x'
+<=>
+	[x':=1 ] not x > 1 => [x :=1] not x = x'
+<=>
+	not (x > 1 => not 1 = 1)
+<=>
+	 x > 1 & 1 = 1
+<=>
+	 x > 1
+
+Cette dernière formule ne pouvant se démontrer à partir de l'hypothèse
+x = x', il n'y a donc pas de raffinement. Cela s'explique par le fait
+que lorsque x <= 1, l'opération op est miraculeuse, et peut établir
+n'importe quelle postcondition, entre autres, la postcondition FALSE,
+qui ne peut être satisfaite par aucun programme qui termine pour au
+moins un état initial, en particulier l'affectation x' := 1.
+
+
+Pour qu'un SELECT soit implémentable, il faut
+l'inclure à l'intérieur d'une précondition, ou bien utiliser la clause
+ELSE du SELECT pour couvrir les cas où toutes les autres conditions du
+SELECT sont fausses. Si on ajoutait la précondtion x' > 1 avant le SELECT, alors il y aurait raffinement.  Comparons le SELECT avec une précondition
+
+op = PRE x > 1 THEN x :=1 END
+op' = x := 1 
+
+Vérifions si op est rafinée par op'
+
+Supposons x = x'
+
+	[S' ] not [S] not J 
+<=>
+	[x':=1 ] not [PRE x > 1 THEN x :=1 END] not x = x'
+<=>
+	[x':=1 ] not x > 1 & [x :=1] not x = x'
+<=>
+	not (x > 1 & not 1 = 1)
+<=>
+	x <= 1 or 1 = 1
+<=>
+	true
+
+Donc, ici il y a raffinement, parce que l'opération op' termine pour toute
+valeur initiale de x, alors que op termine seulement lorsque 
+sa précondition x > 1 est satisfaite; donc le raffinement est satisfait.
+
+

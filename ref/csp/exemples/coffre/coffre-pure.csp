@@ -1,0 +1,45 @@
+nbCoffre = 2
+clebanque = 0
+COFFRE = {1..nbCoffre}
+CLE = union(COFFRE,{clebanque})
+
+channel inserer, enlever : COFFRE . CLE
+channel ouvrir, fermer  : COFFRE
+
+CLEACT = {| inserer, enlever |}
+PORTEACT = {| ouvrir, fermer |}
+
+Cle(k) =
+    inserer?c:COFFRE!k -> CleInseree(c,k)
+
+CleInseree(c,k) = 
+        (k == clebanque or k==c & ouvrir!c -> CleInseree(c,k))
+    []
+        enlever!c!k -> Cle(k)
+
+Coffre(c) = Serrure(c) ||| Serrure(c)
+
+Serrure(c) = 
+    inserer!c?k:CLE -> enlever!c!k -> Serrure(c)
+
+Porte(c) = ouvrir!c -> fermer!c -> Porte(c)
+
+MAIN =
+    (    ( 
+            (||| k : COFFRE @ Cle(k))
+         [| {| ouvrir |} |]
+            Cle(0)
+         )        
+    [| CLEACT |]
+        ( ||| c : COFFRE @ Coffre(c) )
+    )
+[| {| ouvrir |} |]
+    ( ||| c : COFFRE @ Porte(c) )
+
+PropBankKeyIn  = Cle(0)
+
+nametype INSERER = {inserer}.COFFRE.COFFRE
+nametype ENLEVER = {enlever}.COFFRE.COFFRE
+nametype FERMER = {fermer}.COFFRE
+
+assert PropBankKeyIn  [T= (MAIN \ union(FERMER,union(INSERER,ENLEVER)))

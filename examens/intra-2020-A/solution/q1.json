@@ -1,0 +1,162 @@
+{
+  "formulas" : [ {
+    "formulaName" : "a",
+    "question" : "Il existe un triangle et un carré de même taille, situés sur la même ligne,  et ces deux objets sont plus grands que tous les autres objets.",
+    "formulaText" : "#x.\n(\n  #y.\n  (\n      Square(x)\n    &\n      Triangle(y)\n    &\n      SameRow(x,y)\n    &\n      SameSize(x,y)\n    &\n      !z.\n      (\n             x /= z\n           &\n             y /= z\n        =>\n             Smaller(z,x)\n           &\n             Smaller(z,y)\n      )\n  )\n)\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 3,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 5,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 5,
+        "blockSize" : "LARGE",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 5,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "b",
+    "question" : "Chaque objet est seul sur sa ligne et sur sa colonne",
+    "formulaText" : "!x.\n(\n  not\n      #y.\n      (\n          x /= y\n        &\n          (\n               SameRow(x,y)\n            or\n               SameCol(x,y)\n          )\n      )\n)\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 1,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 3,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 4,
+        "gridPosY" : 4,
+        "blockSize" : "MEDIUM",
+        "blockType" : "PENTAGON"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "c",
+    "question" : "Ou bien le pentagone \"a\" est grand, ou bien le triangle \"b\" est  grand.",
+    "formulaText" : "    (\n        Pentagon(a)\n      &\n        Large(a)\n    )\n<=>\n    not\n        (\n            Triangle(b)\n          &\n            Large(b)\n        )\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "b",
+        "gridPosX" : 0,
+        "gridPosY" : 3,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "a",
+        "gridPosX" : 0,
+        "gridPosY" : 6,
+        "blockSize" : "LARGE",
+        "blockType" : "PENTAGON"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "d",
+    "question" : "Il n'y a pas de ligne avec deux pentagones",
+    "formulaText" : "not\n    #x.\n    (\n      #y.\n      (\n          x /= y\n        &\n          SameRow(x,y)\n        &\n          Pentagon(x)\n        &\n          Pentagon(y)\n      )\n    )\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "e",
+    "question" : "Une condition suffisante pour que les objets soient tous sur la même colonne est qu'il existe un petit triangle.",
+    "formulaText" : "   #x.\n   (\n       Triangle(x)\n     &\n       Small(x)\n   )\n=>\n   !x.\n   (\n     !y.\n     (\n       SameCol(x,y)\n     )\n   )\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 1,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 2,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 3,
+        "blockSize" : "LARGE",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 4,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      } ]
+    } ]
+  } ]
+}

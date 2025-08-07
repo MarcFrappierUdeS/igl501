@@ -1,0 +1,15 @@
+MACHINE q2a
+VARIABLES y
+
+INVARIANT y : NAT & y > 0
+
+INITIALISATION y := 1
+
+OPERATIONS
+
+A(x) = PRE x > y & x : NAT THEN y := y-x END
+
+END
+
+
+

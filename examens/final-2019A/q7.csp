@@ -1,0 +1,15 @@
+channel a,b,c
+
+P1 = a -> ((b -> P2) [] (c -> P3))
+
+P2 = (b -> P2) [] (b -> P1)
+
+P3 = (c -> P3) [] (c -> P1)
+
+-- a)
+assert P1 |= LTL: "G ([a] => F([b] or [c]))"
+-- b)
+assert P1 |= LTL: "G ([b]=> ( (not [c]) W [a]))"
+-- c)
+assert P1 |= LTL: "not (FG [b])"
+

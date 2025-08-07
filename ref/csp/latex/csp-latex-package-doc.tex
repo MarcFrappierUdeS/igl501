@@ -1,0 +1,880 @@
+% -- csp.sty documentation (version 2.0) -------------------------------
+
+\documentclass[fleqn,a4paper]{article}
+
+\usepackage{csp} 
+
+\makeatletter
+\def\demo{\par\vbox\bgroup\begingroup\quote}
+\def\gives{\endquote\endgroup\egroup}
+\def\enddemo{\global\@ignoretrue}
+\def\demotable{%
+  \begingroup%
+  \def\arraystretch{1.2}%
+  \advance\abovedisplayskip 2pt%
+  \advance\belowdisplayskip 2pt%
+  \[\normalcolor\begin{array}{@{}c@{\qquad}c@{\qquad}c}%
+    \multicolumn{1}{@{}l}{\hbox to 0.25\textwidth{\textsl{output:}\hss}}&%
+    \multicolumn{1}{@{}l}{\hbox to 0.25\textwidth{\textsl{input:}\hss}}&%
+    \multicolumn{1}{@{}l}{\hbox to %
+      0.25\textwidth{\textsl{machine:}\hss}}%
+  \\[1ex]}
+\def\enddemotable{\end{array}\]\endgroup\@ignoretrue}
+\makeatother
+
+\begin{document}
+
+\title{the \texttt{csp} package}
+
+\author{Jim Davies}
+
+\date{March 2001}
+
+\maketitle
+
+\section{Introduction}
+
+This package allows you to set CSP documents in \LaTeX, using the
+Computer Modern, Lucida Bright, or Times font sets.  It uses many
+features of the \texttt{zed} package, which is automatically loaded.
+This document describes the features that are needed for CSP: for a
+full account of the package, you should read the companion
+document---\textsl{the \texttt{zed} package}---available from the same
+source.
+
+There are six options to consider:
+\begin{itemize}
+\item \texttt{cm}: use Computer Modern/ AMS symbol fonts---the default
+  behaviour;
+\item \texttt{lucida}: use Lucida Bright/ Lucida New Math
+  fonts---license required;
+\item \texttt{times}: use Times/ MathTime fonts---license required;
+\item \texttt{zed}: set displayed mathematics in the style of Z;
+\item \texttt{color}: set mathematical material in different colours;
+\item \texttt{nolines}: set displayed declarations without lines.
+\end{itemize}
+The first three are mutually exclusive.
+
+The mathematical language of CSP includes that of Z, so all the Z
+symbols are automatically defined.  However, the \texttt{zed} package
+can do more than this, providing display boxes for definitions, and
+redefining the standard \verb=\[= and \verb=\]= commands; the
+\texttt{zed} option makes similar provision here.
+
+With the \verb=color= option, the mathematical material will be set in
+colour:
+\begin{itemize}
+\item \texttt{CSPColor}: used for CSP text
+\item \texttt{CSPBoxColor}: used for lines in declaration boxes
+\item \texttt{MetaColor}: used for the fragments of metalanguage:
+  $\Process$, $\Channel$, $\Let$, $\Within$, \ldots
+\end{itemize}
+In this document, we begin by explaining the language of mathematical
+expressions used with CSP; as far as possible, we have tried to make
+this consistent with the Z notation.  In each case, we explain how the
+expression would be rendered in a machine-readable version of CSP, the
+language known as $\mathrm{CSP_M}$.
+
+\clearpage
+
+\section{Mathematical language}
+
+\subsection{Propositional Logic}
+
+\begin{demotable}
+  true & \verb|true| & \verb|true|  \\
+  false & \verb|false| & \verb|false|  \\
+  p \land q & \verb|p \land q| & \verb|p and q| \\
+  p \implies q & \verb|p \implies q| & \verb|(not p) or q|  \\
+  p \lor q & \verb|p \lor q| & \verb|p or q|  \\
+  \lnot p & \verb|\lnot p| & \verb|not p| \\
+  a = b & \verb|a = b| & \verb|a == b|  \\
+  a \neq b & \verb|a \neq b| & \verb|a != b| \\
+\end{demotable}
+
+\subsection{Arithmetic}
+
+\begin{demotable}
+  12 & \verb|12| & \verb|12|  \\
+  -42 & \verb|-42| & \verb|-42|  \\
+  m + n & \verb|m + n| & \verb|m + n|  \\
+  m - n & \verb|m - n| & \verb|m - n|  \\
+  m * n & \verb|m * n| & \verb|m * n|  \\
+  m \div n & \verb|m \div n| & \verb|m / n|  \\
+  m \mod n & \verb|m \mod n| & \verb|m % n|  \\
+  m < n & \verb|m < n| & \verb|m < n|  \\
+  m \leq n & \verb|m \leq n| & \verb|m <= n|  \\
+  m > n & \verb|m > n| & \verb|m > n|  \\
+  m \geq n & \verb|m \geq n| & \verb|m >= n| \\
+\end{demotable}
+
+\subsection{Basic set theory}
+
+\begin{demotable}
+  \emptyset & \verb|\emptyset| & \verb|{}|  \\
+  \{1, 2\} & \verb|\{1, 2\}| & \verb|{1,2}| \\
+  a \cup b & \verb|a \cup b| & \verb|union(a,b)|  \\
+  a \cap b & \verb|a \cap b| & \verb|inter(a,b)|  \\
+  a \setminus b & \verb|a \setminus b| & \verb|diff(a,b)|  \\
+  \bigcup A & \verb|\Bigcup A| & \verb|Union(A)|  \\
+  \bigcap A & \verb|\Bigcap A| & \verb|Inter(A)|  \\
+  \power a & \verb|\power a| & \verb|Set(a)|  \\
+  a \cross b & \verb|a \cross b| & \verb={(x,y) | x <- a, y <- b}=
+  \\
+  \{~x : a | p @ t~\} &
+  \verb=\{~x : a | p @ t~\}= &
+  \verb={t | x <- a, p}=
+\end{demotable}
+
+\begin{demotable}
+  (1,2,3) & \verb|(1,2,3)| & \verb|(1,2,3)| \\
+  x \in a & \verb|x \in a| & \verb|member(x,a)|  \\
+  x \notin a & \verb|x \notin a| & \verb|not(member(x,a))|  \\
+  \# a & \verb|\# a| & \verb|card(a)| \\
+\end{demotable}
+Machine-readable CSP has a special operator for testing whether a set
+is empty: we define a macro for it.
+\begin{demotable}
+  \Empty a & \verb|\Empty a| & \verb|empty(a)|  \\
+\end{demotable}
+
+The comprehension syntax used in machine-readable CSP is based upon
+the \emph{generator} syntax for list comprehensions in Haskell.  The
+mark-up that we have chosen is a compromise between this and Z,
+extending the form of comprehension by allowing a comma-separated list
+of terms in place of the expression term.  To emphasise this
+extension, we use the delimiters \verb=\lset= and \verb=\rset= in
+place of the usual \verb=\{= and \verb=\}=.
+\begin{demotable}
+  \lset x : a | p @ t, u \rset &
+  \block[c]
+  \verb=\lset= \\
+  \quad \verb=x : a | p @ t, u= \\
+  \verb=\rset=
+  \endblock
+  &
+  \verb={t, u | x <- a}=
+\end{demotable}
+The machine-readable expression
+\begin{quote}
+  \verb={t,u | x <- a, y <- b, p}=
+\end{quote}
+has the same semantics as
+\[
+\bigcup \{~x : a; y : b | p @ \{ t, u \}~\}
+\]
+and thus could be written as a distributed union:
+\begin{quote}
+  \verb=\bigcup \{~x : a; y : b | p @ \{ t, u \}~\}=
+\end{quote}
+For this reason, we refer to these constructions as \emph{distributed
+  comprehensions}.  Similar constructions will be used to define
+sequences, sets of compound events, and renaming functions.
+
+There are also operators for constructing number ranges.  These
+expressions may be thought as simple distributed comprehensions:
+\begin{demotable}
+  \lset m \range n \rset & \verb|\lset m \range n \rset| & \verb|{m..n}| \\
+  \lset m \range \rset & \verb|\lset m \range \rset| & \verb|{m..}|
+\end{demotable}
+Note that the first of these expressions has the same semantics as
+\verb=m \upto n=.  The overloaded syntax is, again, a compromise
+between the Z notation and machine-readable CSP.
+
+\subsection{Sequences}
+
+To delimit sequences in CSP, we will use \verb=\lseq= and \verb=\rseq=
+rather than \verb=\langle= and \verb=\rangle=.  This will act as a
+reminder that the sequence notation used here is somewhat more
+flexible than that of standard Z.
+\begin{demotable}
+  \seq a & \verb|\seq a| & \verb|Seq(a)| \\
+  \nil & \verb|\nil| & \verb|< >| \\
+  \langle 1, 2, 3 \rangle & \verb|\langle 1, 2, 3 \rangle| & \verb|<1,2,3>|
+\end{demotable}
+We have a special test for the empty sequence, and an abbreviation for
+the predicate `is in the range of':
+\begin{demotable}
+  \Nil s & \verb=\Nil s= & \verb=Null(s)=
+  \\
+  s \cat t & \verb=s \cat t= & \verb=s^t=
+  \\
+  \# s & \verb|\#~s| & \verb|#s|
+  \\
+  head~s & \verb|head~s| & \verb|head(s)|
+  \\
+  tail~s & \verb|tail~s| & \verb|tail(s)|
+  \\
+  \dcat s & \verb|\dcat s| & \verb|concat(s)|
+  \\
+  x \elem s & \verb|x \elem s| & \verb=elem(x,s)=
+  \\
+  \ran s & \verb|\ran s| & \verb|set(s)|
+\end{demotable}
+We will allow the definition of sequence comprehensions, assuming that
+each variable range is associated with an obvious ordering:
+\begin{demotable}
+  \lseq~x : a | p @ t~\rseq &
+  \block[c]
+  \verb=\lseq=\\
+  \quad \verb=x : a | p @ t= \\
+  \verb=\rseq=
+  \endblock
+  & \verb=< t | x <- a, p>=
+\end{demotable}
+Finally, we may define number ranges as sequences, rather than sets:
+\begin{demotable}
+  \lseq m \range n \rseq
+  & \verb=\lseq m \range n \rseq= & \verb=< m .. n >=
+  \\
+  \lseq m \range \rseq
+  & \verb=\lseq m \range \rseq= & \verb=< m .. >=
+\end{demotable}
+For convenience, \verb=\langle= and \verb=\rangle= can be used in
+place of \verb=\lseq= and \verb=\rseq=; you might like to use
+\verb=\langle= and \verb=\rangle= for sequence expressions that would
+be valid in standard Z, and \verb=\lseq= and \verb=\rseq= for those
+that would not: that is, comprehensions and ranges.
+
+Similarly, \verb=\{= and \verb=\}= will produce the same results as
+\verb=\lset= and \verb=\rset=.  You may find it useful to distinguish
+between the two macros, or you may prefer to settle upon just one.
+The \verb=csp= package treats them as the same command for typesetting
+purposes, and will continue to do so.
+
+\section{Process language}
+
+The three basic processes used in CSP do not have macros: a simple
+text string will suffice:
+\begin{demotable}
+  Stop & \verb=Stop= & \verb=STOP= \\
+  Skip & \verb=Skip= & \verb=SKIP= \\
+  Chaos(a) & \verb=Chaos(a)= & \verb=CHAOS(a)=
+\end{demotable}
+The basic operators are all defined as relation symbols:
+\begin{demotable}
+  c \then p & \verb=c \then p= & \verb=c -> p= \\
+  c ? x : a \then p & \verb=c?x:a \then p= & \verb=c?x:a -> p= \\
+  c ! v \then p & \verb=c!v \then p= & \verb=c!v -> p= \\
+  p \comp q & \verb=p \comp q= & \verb=p ; q= \\
+  p \interrupt q & \verb=p \interrupt q= & \verb=p /\ q= \\
+  p \hide a & \verb=p \hide a= & \verb=p \ a= \\
+  p \extchoice q & \verb=p \extchoice q= & \verb=p [] q= \\
+  p \intchoice q & \verb=p \intchoice q= & \verb=p |~| q= \\
+  p \timeout q & \verb=p \timeout q= & \verb=p [> q= \\
+  b \guard q & \verb=p \guard q= & \verb=p & q= \\
+  p \interleave q & \verb=p \interleave q= & \verb=p ||| q= \\
+\end{demotable}
+Notice that we don't write \verb=\&= for the guarding construct: it
+would mean overwriting the behaviour of this standard \LaTeX\ macro.
+
+There are two standard forms of communicating parallel combination in
+CSP: the first may introduce non-determinism, as events outside the
+shared set may occur independently, even if they have the same name;
+the second form identifies the domain of interest, or alphabet, of
+each process.
+\begin{demotable}
+  p \parallel[a] q & \verb=p \parallel[a] q= &
+  \verb=p [| a |] q= \\
+  p \parallel[a][b] q & \verb=p \parallel[a][b] q= &
+  \verb=p [ a || b ] q= \\
+\end{demotable}
+It is often convenient to break such expressions into their component
+parts: we may obtain the same results by writing
+\begin{demotable}
+  p \lpar a \rpar q & \verb=p \lpar a \rpar q= &
+  \verb=p [| a |] q= \\
+  p \lpar a \cpar b \rpar q & \verb=p \lpar a \cpar b \rpar q= &
+  \verb=p [ a || b ] q= 
+\end{demotable}
+
+
+A renaming expression is an enumeration or comprehension of renaming
+terms: expressions of the form form $a \becomes b$, pronounced `$a$
+becomes $b$', 
+\begin{demotable}
+  p \lren c \becomes d \rren &
+  \verb=p =
+  \block
+    \verb=\lren= \\
+    \quad \verb=c \becomes d= \\
+    \verb=\rren= \\[1ex]
+  \endblock
+  & \verb=p[[c <- d]]=
+  \\
+  p \lren~ x : a @ c \becomes d~\rren &
+  \verb=p =
+  \block
+  \verb=\lren~= \\
+  \quad \verb=x : a @= \\
+  \qquad \verb=c \becomes d= \\
+  \verb=~\rren= \\
+  \endblock
+  & \verb=p =
+  \block
+  \verb=[[= \\
+  \quad \verb=c <- d |= \\
+  \qquad \verb=x <- a= \\
+  \verb=]]=
+  \endblock
+\end{demotable}
+The linking operator is a combination of renaming, parallel
+composition, and hiding.  Like the parallel operators, it can be
+written in component form.
+\begin{demotable}
+  p \linking[ a : A @ a \linksto b ] q & \verb=p =
+  \begin{block}
+    \verb=\linking[= \\
+    \c1 \verb=a : A @= \\
+    \c2 \verb=a \linksto b= \\
+    \c3 \verb=]q= \\[1ex]
+  \end{block}
+  & 
+  \verb=p [a <-> b | a <- A] q= \\
+  p \llink a : A @ a \linksto b \rlink q & 
+  \begin{block}
+    \verb=p =
+    \begin{block}
+      \verb=\llink= \\
+      \c1 \verb=a : A @= \\
+      \c2 \verb=a \linksto b= \\
+      \verb=\rlink q=
+    \end{block}
+  \end{block}
+  & \verb=p [a <-> b | a <- A] q=
+\end{demotable}
+Note that there should be no need to insert \verb=~= commands to
+provide the correct spacing: \verb=\llink= and \verb=\rlink=
+are defined as binary operator symbols. 
+
+There are indexed forms of the sequential composition, choice,
+parallel, and linking operators.  Note that the first and last of
+these take a sequence $s$, not an ordinary set $a$, as a range
+expression:
+\begin{demotable}
+  \Comp x : s @ p & \verb=\Comp x : a @ p= & \verb=; x : a @ p= \\
+  \Extchoice x : a @ p & \verb=\Extchoice x : a @ p= &
+  \verb=[] x : a @ p= \\
+  \Intchoice x : a @ p & \verb=\Intchoice x : a @ p= &
+  \verb=|~| x : a @ p= \\
+  \Interleave x : a @ p & \verb=\Interleave x : a @ p= &
+  \verb=||| x:a @ p= \\
+  \Parallel x : a @ b \circ p &
+  \begin{block}
+    \verb=\Parallel= \\
+    \c1 \verb=x : a @ b \circ p= 
+  \end{block}
+  &    
+  \verb=|| x:a @ [b] p= \\
+  \Linking[ c \linksto d ] x:s @ p &
+  \begin{block}
+    \verb=\Linking= \\
+    \c1 \verb=[c \linksto d]= \\
+    \c2 \verb=x : s @ p=
+  \end{block}
+  & 
+  \verb=[c <-> d] x:s @ p=
+\end{demotable}
+In the syntax for indexed alphabeticised parallel, the set expression
+that comes after $\circ$ describes the domain of interest of the
+corresponding indexed process.
+
+The set of events shared by a parallel combination is often more
+easily described in terms of channels: sets of events with the same
+prefix.  Since channels are declared separately, these sets can be
+produced from the channel names alone; the function $\productions$
+does this.  The function $\extensions$, on the other hand, generates
+the set of completions: the set of expressions that could be added to
+a channel name to produce a valid event.
+
+Alternatively, we may use an expanding distributed comprehension.  As
+with the other distributed comprehensions, this may have a list of
+terms rather than just a single term.
+\begin{demotable}
+  \productions c & \verb=\productions c= & \verb=productions(c)= \\
+  \extensions c & \verb=\extensions c= & \verb=extensions(c)= \\
+  \lchan c, d \rchan & \verb=\lchan c, d \rchan= & \verb={| c, d |}=
+  \\
+  \lchan x : a | c, d \rchan & \verb=\lchan x : a | c, d \rchan= &
+  \verb={| c, d | x <- a |}=
+\end{demotable}
+
+Finally, there is the conditional expression operator, usually applied
+to the definition of processes, but also found in the definition of
+other objects:
+\begin{demotable}
+  \If B \Then E \Else F & \verb=\If B \Then E \Else F=
+  & \verb=if B then E else F=
+\end{demotable}
+
+\section{Definitions}
+
+\subsection{Contexts}
+
+An important feature of this version of the CSP language is the
+introduction of explicit \emph{contexts}.  In constructing and
+explaining models, we may wish to declare several different versions
+of the same process.  By making the context of each declaration
+explicit, we can avoid, or automate, a great deal of renaming.
+
+One context, $Global$, is pre-defined: declarations without context
+arguments are added to this global context.  Other contexts must be
+declared separately, and may \emph{extend} or \emph{use} other
+contexts, or even combinations of contexts.
+
+We write `$B \extends A$' to declare a context $B$ as an extension of
+$A$.  If $B$ is an extension of $A$, and the same object is declared
+in both contexts, then---within context $B$---only one declaration
+takes effect: that of the current context.  The first declaration is
+overwritten.
+
+We write `$D \uses C$' to declare a context $D$ in which all of the
+objects declared in $C$ are accessible in qualified form: by following
+the object name with the name of the context.  For example, if $P$
+were defined in $C$, we would refer to it, within $D$, as $P[C]$.  In
+general, we write 
+\begin{demotable}
+  Name[Context] & \verb=Name[Context]= & \verb=Context_Name=
+\end{demotable}
+to indicate that this usage of $Name$ corresponds to the declaration
+in $Context$.
+
+A context declaration may be presented in vertical form, 
+\begin{demo}
+\begin{verbatim}
+\begin{context}
+  A \extends Global \\
+  B \extends A \\
+  C \uses B
+\end{context}
+\end{verbatim}
+\gives
+\begin{context}
+  A \extends Global \\
+  B \extends A \\
+  C \uses B
+\end{context}
+\end{demo}
+The lined declaration syntax is explained below. 
+
+The right-hand argument to `$\extends$' and `$\uses$' may be a list of
+contexts.  In the case of `$\extends$', this means that the new
+context is obtained by extending the contexts one-by-one, in the order
+given.  In the case of `$\uses$', all of the declarations from the
+list of contexts are available, in qualified form.
+
+For example, if $O$ is defined in both $A$ and $B$, and 
+\begin{context}
+  A \extends Global \\
+  B \extends Global \\
+  C \uses A, B \\
+  D \extends A, B
+\end{context}
+then $C$ may refer to $O[A]$ and $O[B]$, while $D$ may refer only to
+$O$, whose value is taken from $B$.  
+
+\subsection{Outer declarations}
+
+Each declaration that we make---of a process, a channel, or a
+function---will be associated with a context.  There is one exception
+to this rule: \emph{contexts} are not themselves declared within
+contexts.  We can refer to the declared object only within the
+specified context and those contexts that extend it.  If no context is
+specified, then the names declared will be added to the global
+context.
+
+An outer declaration is an environment with an optional argument, the
+name of the corresponding context.  There are several different types
+of declaration: one for each kind of declared object.
+\begin{itemize} \itemsep 0pt
+\item[$-$] \verb=channel=
+\item[$-$] \verb=process=
+\item[$-$] \verb=function=
+\item[$-$] \verb=set=
+\item[$-$] \verb=datatype=
+\item[$-$] \verb=nametype=
+\item[$-$] \verb=subtype=
+\item[$-$] \verb=external=
+\item[$-$] \verb=transparent=
+\item[$-$] \verb=assertion=
+\end{itemize}
+For example, to declare a channel $input$ in context $Example$, we
+would write
+\begin{quote}
+  \begin{verbatim}
+\begin{channel}[Example]
+  input
+\end{channel}
+\end{verbatim}
+\end{quote}
+and obtain, as output,
+\begin{channel}[Example]
+  input
+\end{channel}
+In machine-readable CSP, we might write
+\begin{quote}
+\begin{verbatim}
+channel Example_input
+\end{verbatim}
+\end{quote}
+to differentiate this channel from other $input$ channels. 
+
+Several, separate outer declarations may be made for the same context.
+For example, suppose that we wished to declare some channels and a
+process within a single context $DiaryOne$.  We could write
+\begin{quote}
+\begin{verbatim}
+\begin{channel}[DiaryOne]
+  invite, accept, reject, confirm, cancel, 
+  attend, notattend
+\end{channel} 
+\end{verbatim}
+\end{quote}
+giving
+\begin{channel}[DiaryOne]
+  invite, accept, reject, confirm, cancel, 
+  attend, notattend
+\end{channel} 
+and then 
+\begin{quote}
+\begin{verbatim}
+\begin{process}[DiaryOne]
+  Client = {} \\ \c1 
+  \begin{block}
+    invite \then {} \\ \c1 
+    \begin{block}
+      accept \then {} \\ \c1
+      \begin{block}
+        confirm \then attend \then STOP \\
+        \extchoice \\
+        cancel \then notattend \then STOP 
+      \end{block} \\
+      \intchoice \\
+      \begin{block}
+        reject \then {} \\ \c1
+        \begin{block}
+          confirm \then notattend \then STOP \\
+          \extchoice \\
+          cancel \then notattend \then STOP 
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{block}
+\end{process}
+\end{verbatim}
+\end{quote}
+to give
+\begin{process}[DiaryOne]
+  Client = {} \\ \c1 
+  \begin{block}
+    invite \then {} \\ \c1 
+    \begin{block}
+      accept \then {} \\ \c1
+      \begin{block}
+        confirm \then attend \then STOP \\
+        \extchoice \\
+        cancel \then notattend \then STOP 
+      \end{block} \\
+      \intchoice \\
+      \begin{block}
+        reject \then {} \\ \c1
+        \begin{block}
+          confirm \then notattend \then STOP \\
+          \extchoice \\
+          cancel \then notattend \then STOP 
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{block}
+\end{process}
+At this point, it is worth discussing the facilities provided for
+horizontal and vertical alignment.  The \verb=\c=$n$ command produces
+$n$ tabs' worth of indentation, where $n$ is an integer between 1 and
+9, inclusive; the \verb={}= after the binary symbols \verb|=| and
+\verb=\then= causes \TeX\ to insert the correct spacing \emph{before}
+each symbol.
+
+The unit for indentation is given by \verb=\csptab=: in the package,
+this is set to \verb=1em=; you can change this by assigning a new
+length: e.g., \verb|\csptab=2em|.  If you are in the habit of typing
+\verb=\t=$n$, the \verb=zed.sty= indentation command, then you might
+prefer to type \verb=\t=$n$ instead of \verb=\c=$n$, provided that you
+don't mind having the same indentation in both environments.
+
+The \verb=block= environment allows us to group several lines of text:
+it is simply a wrapper for the \verb=array= environment, insisting
+upon the column specification \verb={@{}l@{}}= but allowing an
+optional argument to dictate vertical alignment, with \verb=[t]= as
+the default.  This alignment has semantic significance:
+\verb=\begin{block}= and \verb=\end{block}= act as parentheses for
+parsing purposes.
+
+\subsection{Inner declarations}
+
+Any of the declaration environments can be used within an existing
+declaration: the result is an \emph{inner} declaration in which the
+context argument is ignored.  This feature of the language can be
+exploited, in conjunction with the vanilla
+\begin{itemize}
+\item[$-$] \verb=declaration=
+\end{itemize}
+environment, to group a collection of declarations together,
+associating them all with the same context.  For example, 
+\begin{quote}
+\begin{verbatim}
+\begin{declaration}[DiaryOne]
+  \begin{channel}
+    invite, accept, reject, confirm, cancel, 
+    attend, notattend
+  \end{channel} \also 
+  \begin{process}
+    Client = {} \\ \c1 
+    \begin{block}
+      invite \then {} \\ \c1 
+      \begin{block}
+        accept \\ \c1
+        \begin{block}
+          confirm \then attend \then STOP \\
+          \extchoice \\
+          cancel \then notattend \then STOP 
+        \end{block} \\
+        \intchoice \\
+        \begin{block}
+          reject \then {} \\ \c1
+          \begin{block}
+            confirm \then notattend \then STOP \\
+            \extchoice \\
+            cancel \then notattend \then STOP 
+          \end{block}
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{process}
+\end{declaration}
+\end{verbatim}
+\end{quote}
+which appears as
+\begin{declaration}[DiaryOne]
+  \begin{channel}
+    invite, accept, reject, confirm, cancel, 
+    attend, notattend
+  \end{channel} \also 
+  \begin{process}
+    Client = {} \\
+    \c1 
+    \begin{block}
+      invite \then {} \\
+      \c1 
+      \begin{block}
+        accept \then {} \\
+        \c1
+        \begin{block}
+          confirm \then attend \then STOP \\
+          \extchoice \\
+          cancel \then notattend \then STOP 
+        \end{block} \\
+        \intchoice \\
+        \begin{block}
+          reject \then {} \\
+          \c1
+          \begin{block}
+            confirm \then notattend \then STOP \\
+            \extchoice \\
+            cancel \then notattend \then STOP 
+          \end{block}
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{process}
+\end{declaration}
+has the same effect as the two outer declarations given previously. 
+
+Consecutive declarations will be set alongside each other unless an
+explicit \verb=\\=, \verb=\also=, or \verb=\Also= command is included.
+These produce a new line with vertical skips of increasing magnitude:
+\verb=\also= will usually suffice.
+
+\subsection{Local declarations}
+
+If the \verb=declaration= appears inside another declaration, then the
+result is a local declaration: the names declared are accessible only
+within the enclosing declaration; they are not added to any named
+context.  Any number of other declarations can be placed inside a
+local declaration environment, but every such environment must be
+followed immediately by a \verb=within= environment, which identifies
+the scope of the declarations.
+
+For example, we may declare several processes within the right-hand
+side of a process definition---common practice in machine-readable
+CSP---
+\begin{quote}
+\begin{verbatim}
+\begin{process}[Example]
+  P = {} \\ \c1 
+  \begin{block}
+    \begin{declaration}
+      \begin{process}
+        PA = a \then PB \\
+        PB = b \then PA
+      \end{process}
+    \end{declaration} \\
+    \begin{within}
+      PA
+    \end{within}
+  \end{block}
+\end{process}
+\end{verbatim}
+\end{quote}
+which appears as 
+\begin{process}[Example]
+  P = {} \\ \c1 
+  \begin{block}
+    \begin{declaration}
+      \begin{process}
+        PA = a \then PB \\
+        PB = b \then PA
+      \end{process}
+    \end{declaration} \\
+    \begin{within}
+      PA
+    \end{within} 
+  \end{block}
+\end{process}
+
+\subsection{Horizontal form}
+
+For each of the declaration environments described above, there is a
+corresponding horizontal form.  The commands
+\begin{itemize} \itemsep 0pt
+\item[$-$] \verb=\Channel=
+\item[$-$] \verb=\Process=
+\item[$-$] \verb=\Function=
+\item[$-$] \verb=\Set=
+\item[$-$] \verb=\Datatype=
+\item[$-$] \verb=\Nametype=
+\item[$-$] \verb=\Subtype=
+\item[$-$] \verb=\External=
+\item[$-$] \verb=\Transparent=
+\item[$-$] \verb=\Assertion=
+\end{itemize}
+produce the declaration keyword followed by a horizontal space.  The
+only way to specify a context is to enclose these declarations inside
+a vertical \verb=declaration= environment.  There is no horizontal
+form of \verb=declaration=: instead, we write \verb=\Let= and
+\verb=\Within= for inner and local declarations.
+\begin{demotable}
+  \Let D ~~\Within P & \verb=\Let D ~~\Within P= & \verb=let D within P=
+\end{demotable}
+If no context is to be specified, then the declarations can be made
+within the plain \verb=csp= environment.  In this case, no vertical
+line is added---although the \verb=barcsp= environment will do this
+for you if you wish: the effect is the same as an outer
+\verb=declaration= environment with no context specified. 
+
+Finally, there is also a \verb=nolines= option to the package, which
+will produce declarations with neither horizontal nor vertical lines. 
+
+\section{Semantics}
+
+\subsection{Semantic equations}
+
+\begin{demotable}
+  \traces[P] & \verb=\traces[P] = & \verb=---= \\
+  \failures[P] & \verb=\failures[P] = & \verb=---= \\
+  \divergences[P] & \verb=\divergences[P] = & \verb=---= 
+\end{demotable}
+
+\subsection{Assertions}
+
+\begin{demotable}
+  \Deterministic[m] p & \verb=\Deterministic[m] p= 
+  & \verb=p [:deterministic [m]]= \\
+  \DeadlockFree[m] p & \verb=\DeadlockFree[m] p= 
+  & \verb=p [:deadlock free [m]]= \\
+  \DivergenceFree p & \verb=\DivergenceFree p= 
+  & \verb=p [:divergence free]= \\
+  p \refinedby[m] q & \verb=p \refinedby[m] q= 
+  & \verb|p [m= q| 
+  \\
+  \\
+  \begin{minipage}{0.2\textwidth}%
+    \cspindent 0pt%
+    \abovedisplayskip 0pt\belowdisplayskip\abovedisplayskip%
+    \begin{assertion}
+      p \refinedby[m] q
+    \end{assertion}
+  \end{minipage}
+  &
+  \begin{minipage}{0.3\textwidth}
+\begin{verbatim}
+\begin{assertion}
+  p \refinedby[m] q
+\end{assertion}
+\end{verbatim}
+  \end{minipage}
+  &
+  \verb|assert p [m= q|
+\end{demotable}
+
+\subsection{Extensions}
+
+\begin{itemize}
+\item You can add a new declaration environment using the
+  \verb=\newdeclaration= command.  The first argument is the name of
+  the vertical environment, the second is the name of the
+  corresponding horizontal for; the third is the text to be inserted.
+  For example, the \verb=assertion= environment demonstrated above was
+  defined by
+\begin{quote}
+  \verb=\newdeclaration{assertion}{Assertion}{assert}=
+\end{quote}
+
+\item You can add a new semantic function using the
+  \verb=\newsemantics= command: the first argument is the new macro
+  name; the second is the text to be inserted.  Every semantic
+  function takes an optional argument, to be set in semantic brackets.
+  The standard definitions include:
+\begin{quote}
+  \verb=\newsemantics{traces}{traces}=
+\end{quote}
+although you could redefine these with, for example, something like
+\begin{quote}
+  \verb=\newsemantics{traces}{\mathcal{T}}=
+\end{quote}
+The commands \verb=\ldbrack= and \verb=\rdbrack= produce the double
+brackets on their own.
+
+\item \verb=csp.sty= will load \verb=zed.sty=, \verb=color.sty= (for
+  colour), \verb=lucidabr.sty= (for Lucida fonts), and
+  \verb=mathtime.sty= (for Times fonts) only if they are not already
+  loaded.  If you need to load these packages with your own list of
+  options, you have only to load them before you load \verb=csp.sty=.
+
+  
+\item In machine-readable CSP, the bars and brackets used to build
+  parallel operators appear in a different order.  If you would like
+  the typeset versions to match the existing $\mathrm{CSP_M}$ form,
+  simply insert the following code in a style file after loading
+  \verb=csp=:
+\begin{verbatim}
+  \def\lpar@sym{{[}\mkern -1mu{|}\mkern-1mu}
+  \def\rpar@sym{\mkern-1mu{|}\mkern -1mu{]}}
+\end{verbatim}
+  The existing typeset versions match the syntax chosen for parallel
+  composition in the language LOTOS, an international standard for
+  process description.  Nevertheless, I am open to suggestions
+  regarding the default behaviour of this package.
+  
+\item If you would like a pair of optional arguments to the
+  \verb=\parallel= operator to be set as subscripts, then you need to
+  insert
+\begin{verbatim}
+  \def\@@parallel[#1][#2]{%
+    \mathrel{%
+      {\vphantom\parallel@sym}_{#1}{\parallel@sym}_{#2}}}
+\end{verbatim}
+  into your own style file, again after loading \verb=csp=. 
+  
+\end{itemize}
+\end{document}
+

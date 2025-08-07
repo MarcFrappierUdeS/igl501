@@ -1,0 +1,17 @@
+MACHINE q2c
+VARIABLES y
+
+INVARIANT
+  y : -2..2
+
+INITIALISATION y := 0
+
+OPERATIONS
+
+C = ANY x WHERE x : -1..1 THEN y := x END
+
+END
+
+
+
+

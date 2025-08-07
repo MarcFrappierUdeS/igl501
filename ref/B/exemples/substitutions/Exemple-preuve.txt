@@ -1,0 +1,220 @@
+/* Quelques preuves assoicées à la machine Exemple.mch */
+
+
++++++++++++++++++++++
+
+Vérifions si Op1 préserve l'invariant
+
+Il faut montrer
+
+	x : NAT => [CHOICE x:= 1 OR x := -1 END] x : NAT
+
+Supposons  x : NAT
+
+Montrons [CHOICE x:= 1 OR x := -1 END}] x : NAT
+
+	[CHOICE x:= 1 OR x := -1 END}] x : NAT
+<=>		< def. wp choice >
+	([ x:= 1 ]x : NAT) & ([x := -1] x : NAT)
+<=>		< def. wp choice >
+	(1 : NAT) & ( -1 : NAT)
+<=>
+	vrai & faux
+<=>
+	faux
+
+L'obligation de preuve n'est pas respectée. Op1 ne préserve l'invariant
+
++++++++++++++++++++++
+
+Vérifions si Op2 préserve l'invariant
+
+Il faut montrer
+
+	x : NAT => [CHOICE x:= 1 OR x := 2 END}] x : NAT
+
+Supposons  x : NAT
+
+Montrons [CHOICE x:= 1 OR x := 2 END}] x : NAT
+
+	[CHOICE x:= 1 OR x := 2 END}] x : NAT
+<=>		< def. wp choice >
+	([ x:= 1 ]x : NAT) & ([x := 2] x : NAT)
+<=>		< def. wp choice >
+	(1 : NAT) & ( 2 : NAT)
+<=>
+	vrai & vrai
+<=>
+	vrai
+
+Donc OP2 préserve l'invariant
+
++++++++++++++++++++++
+
+Vérifions si Op3 préserve l'invariant
+
+Il faut montrer
+
+	x : NAT => [ANY y WHERE y : INT THEN x := y END] x : NAT
+
+Supposons x : NAT
+
+Montrons
+
+	[ANY y WHERE y : INT THEN x := y END] x : NAT
+<=>
+	!y.(y : INT =>  [x := y]x : NAT)
+<=>
+	!y.(y : INT =>  y : NAT)
+<=>
+	faux pour y = -1
+
++++++++++++++++++++++
+
+Vérifions si Op4 préserve l'invariant
+
+x : NAT => [ANY y WHERE y > 0 THEN x := y END] x : NAT
+
+Supposons x : NAT
+
+Montrons
+
+	[ANY y WHERE y > 0 THEN x := y END] x : NAT
+<=>
+	!y.(y > 0 =>  [x := y]x : √)
+<=>
+	!y.(y > 0 =>  y : NAT)
+<=>
+	faux
+
++++++++++++++++++++++
+
+Cas particulier de substitution ANY qui est "miraculeuse", c'est-à-dire qu'il
+n'existe pas de programme qui est correct par rapport à cette substitution,
+car elle permet d'établir false, ce qui est impossible pour un programme
+(ie, un programme termine toujours sur un état, et un état ne peut satisfaire
+la formule false)
+
+Vérifions si la substitution suivante peut terminer sur false
+
+	[ANY y WHERE false THEN x := y END]false
+<=>
+	!y.(false => [x:=y]false)
+<=>		<lois de l'implication>
+	true
+
+Donc, vu que la precondition la plus faible qui garantit de terminer dans false est true,
+pour n'importe quel état initial, cette subsitution termine et produit un résultat qui satisfait false.
+
+Si P est un programme exécutable, alors on a la propriété suivante qui est satisfaite
+
+	wp(P,false) <=> false
+
+Cette propriété n'est pas satisfaite par la substitution ANY dans l'exemple précédent.
+
+Voici un exemple simple de programme qui ne peut établir false
+L'operation suivante ne peut établir false
+
+	[ x := y] false
+<=>
+	false
+
+La substitution suivante établit n'importe quelle formule 
+
+	[ANY y WHERE false THEN x := y END] Q
+<=>
+	!y.(false => [x:=y] Q)
+<=>		<lois de l'implication>
+	true
+
+Un ANY est qualifié d'opération miraculeuse lorsqu'elle peut établir
+n'importe quelle formule; dans ce cas, elle n'est pas implémentable
+
++++++++++++++++++++++
+
+Vérifions si Op5 préserve l'invariant
+
+Il faut montrer
+
+	x : NAT => [SELECT
+	           x > 0 THEN x := 1
+	           WHEN x = 0 THEN x := -1
+	           END] x : NAT
+
+Supposons x : NAT
+
+MOntrons
+
+	[SELECT
+           x > 0 THEN x := 1
+           WHEN x = 0 THEN x := -1
+           END] x : NAT
+<=>          
+		x > 0 => [x := 1] x : NAT
+	&
+		x = 0 => [x := -1] x : NAT
+<=>
+		x > 0 => 1 : NAT
+	&
+		x = 0 => -1 : NAT
+<=>
+		vrai
+	&
+		faux
+<=>
+	faux
+
++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+Supposons I & P
+
+I = y : NAT & y > 0 
+P = x > y & x : NAT
+
+Montrons [y := y-x]I
+
+    [y := y-x]I
+<=>
+    y-x : NAT & y-x > 0
+<=>
+    y-x >= 0 & y-x > 0
+<=>
+    y >= x & y > x
+<=>
+    y > x
+
+Ce qui ne peut se déduire des hypothèse; donc l'invariant n'est pas préservé.
+
+La précondition la plus faible pour le préserver est
+
+  y > x

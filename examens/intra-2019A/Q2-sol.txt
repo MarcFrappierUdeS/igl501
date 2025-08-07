@@ -1,0 +1,112 @@
+Q2
+
+a) Supposons y : 0..k & x : 0..3 & y : 3..k et montrons [y := y-x](y : 0..k)
+
+		x : 0..3 & y : 3..k
+=>														< calcul de l'intervalle de y-x >
+		y - x : 0..k
+<=>														< def. de substition >
+		[y := y-x](y : 0..k)
+
+Donc, l'invariant est préservé.
+
+b) Supposons x : 1..2 & y : -4..3
+   et essayons de montrer  [CHOICE y:=y+x OR y:=y-x END] y : -5..5
+
+		[CHOICE y:=y+x OR y:=y-x END] y : -5..5
+<=>
+		[y:=y+x](y : -5..5) & [y:=y-x](y : -5..5)
+<=>
+		(y+x : -5..5) & (y-x : -5..5)
+
+Calculons la valeur de y+x et y-x à partir des hypothèses
+
+		x : 1..2 & y : -4..3
+=>
+		y+x : -3..5
+=>
+		y+x : -5..5
+
+OK
+
+		x : 1..2 & y : -4..3
+=>
+		y-x : -6..2
+/=>
+		y-x : -5..5
+
+Donc l'invariant n'est pas préservé par la 2e option du CHOICE, avec les valeurs x = 2 et y = −4.
+
+c) Supposons x : 0..k & y 0..k & f : 0..k >->> 0..k
+   et montrons [f(x) := f(y) || f(y) := f(x)](f : 0..k >->> 0..k)
+
+si x=y alors f est inchangé
+si x <> y alors on doit montrer
+
+f<+{x |-> f(y), y |-> f(x) } : 0..k >->> 0..k
+
+Ré-écrivons le côté gauche en une partition de f.
+
+	f<+{x |-> f(y), y |-> f(x) }
+=
+	{x,y} <| f \/ {x |-> f(y), y |-> f(x) }
+
+Les deux parties sont disjointes sur leur domaine et codomaine.
+Leur domaine et codomaine forme chacun une partition de 0..k.
+Chacune est une bijection, et leur union est donc une bijection sur 0..k
+
+d) Supposons z : 0..9 et montrons
+
+		[ANY x,y WHERE x : 0..3 & y : 0..3 THEN z := z+x+y END](z : 0..9)
+
+Calculons cette expression
+
+		[ANY x,y WHERE x : 0..3 & y : 0..3 THEN z := z+x+y END](z : 0..9)
+<=>
+		!(x,y).(x : 0..3 & y : 0..3 => [z := z+x+y](z : 0..9)
+<=>
+		!(x,y).(x : 0..3 & y : 0..3 => z+x+y : 0..9
+
+Supposons x : 0..3 & y : 0..3
+et essayons de montrer z+x+y : 0..9
+
+		x : 0..3 & y : 0..3 & z : 0..9
+=>
+		y+x+z : 0..15
+/=>
+		z+x+y : 0..9
+
+Et donc l'invariant n'est pas préservé, avec
+x = 3, y = 3, et z = 4
+
+e) Supposont x : NAT et montrons
+[SELECT x > 1 THEN x := x-1 WHEN x < 1 THEN x := -x END] (x : NAT)
+
+		[SELECT x > 1 THEN x := x-1 WHEN x < 1 THEN x := -x END] (x : NAT)
+<=>
+			x > 1 => [x := x-1](x : NAT)
+		&	x < 1 => [x := -x] (x : NAT)
+<=>
+			x > 1 => x-1 : NAT
+		&	x < 1 => -x : NAT
+
+Prouvons le premier élément de la conjonction.
+
+	x > 1
+=>
+	x-1 > 1-1
+<=>
+	x-1 > 0
+=>
+	x-1 : NAT
+
+Prouvons le deuxième élément de la conjonction.
+
+		x < 1
+=>
+		-x > -1
+<=>
+		-x >= 0
+<=>
+		-x : NAT
+

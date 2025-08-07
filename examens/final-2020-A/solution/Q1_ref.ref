@@ -1,0 +1,51 @@
+REFINEMENT Q1_ref
+REFINES Q1
+CONSTANTS U
+PROPERTIES U = 1..(k*k)
+VARIABLES f
+INVARIANT
+  f : U --> BOOL
+& !(x,y).
+    (
+          x : T
+        & y : T
+    =>
+        f((x-1)*k+y) = v(x,y)
+    )
+INITIALISATION
+  f := U*{FALSE}
+OPERATIONS
+  set(x,y,b) =
+
+    PRE
+        x : T
+      & y : T
+      & b : BOOL
+    THEN
+      f((x-1)*k+y) := b
+    END
+;
+  flip(x,y) =
+
+    PRE
+        x : T
+      & y : T
+    THEN
+      IF
+        f((x-1)*k+y) = TRUE
+      THEN
+        f((x-1)*k+y) := FALSE
+      ELSE
+        f((x-1)*k+y) := TRUE 
+      END
+    END
+;
+  r <-- get(x,y) =
+    PRE
+        x : T
+      & y : T
+    THEN
+      r := f((x-1)*k+y)
+    END
+END
+

@@ -1,0 +1,74 @@
+REFINEMENT q1_ref
+REFINES q1
+CONSTANTS
+    succ_c, qv
+PROPERTIES
+    succ_c = %x.(x : 1..k | (x mod k)+1)
+&   qv = %d.(d:1..k | %i.(i:1..k | ((i+d-2) mod k)+1))
+VARIABLES  v,d,f,n
+INVARIANT
+    v : 1..k --> ELEM 
+&   d : 1..k /* position du premier élément de la file */
+&   f : 1..k /* position du dernier élément de la file */
+&   n : 0..k /* n représente le nb d'éléments de la file */
+&   (n > 0 => f = ((d+n-2) mod k)+1)
+/* invariant de collage */
+&   n = card(q)
+&   !(i).(i : 1..n => q(i) = v(qv(d)(i)))
+
+INITIALISATION
+    v :: 1..k --> {e1}
+||  d := 1
+||  f := k
+||  n := 0
+
+OPERATIONS
+
+enfiler(e) =
+PRE
+    e : ELEM
+&   n < k
+THEN
+    v(succ_c(f)) := e
+||  f := succ_c(f)
+||  n := n+1
+END;
+  
+defiler =
+PRE
+    n > 0
+THEN
+    d := succ_c(d)
+||  n := n-1
+END;
+  
+supprimer(e) =
+PRE
+    e : ELEM
+THEN
+    IF
+        n > 0
+    &   e : ran(qv(d)[1..n] <| v)
+    THEN
+            d := succ_c(d)
+        ||  n := n-1
+        ||  ANY
+                i
+            WHERE
+                i : 1..n
+            &   v(qv(d)(i)) = e
+            THEN
+                v :=  v <+ (succ_c~; (qv(d)[1..(i-1)]<| v))
+            END
+    END
+END;
+
+r <-- tete =
+PRE
+    n > 0
+THEN
+    r := v(d) 
+END
+
+END
+

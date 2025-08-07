@@ -1,0 +1,21 @@
+datatype CLIENT = c1 | c2
+datatype RESSOURCE = r1 
+
+channel req : CLIENT.RESSOURCE
+channel all : CLIENT.RESSOURCE
+channel lib : CLIENT.RESSOURCE
+
+AR = {| req, all, lib |}
+
+Client(c) = req!c?r:RESSOURCE -> all!c!r -> lib!c!r -> Client(c)
+Ressource(r,f) =    #(f) < card(CLIENT) & req?c:CLIENT!r -> Ressource(r,f^<c>)
+                []
+                    f != <> & all!head(f)!r -> Ressource(r,f)
+                []
+                    f != <> & lib!head(f)!r -> Ressource(r,tail(f))
+
+MAIN =
+        (||| c : CLIENT @ Client(c))
+    [| AR |]
+        (||| r : RESSOURCE @ Ressource(r,<>))
+

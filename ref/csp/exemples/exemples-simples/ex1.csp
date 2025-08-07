@@ -1,0 +1,41 @@
+-- ex1
+
+-- Définition de Sigma (l'alphabet du système)
+X = {1..3}
+
+channel a,b, c,d
+channel e,f : {0..3}
+
+P0 = a -> b -> SKIP
+
+P1 = c -> d -> STOP
+
+P2 = P0 [] P1 -- choix externe
+
+P2_int = P0 |~| P1 -- choix externe
+
+P3 = (SKIP ; (a -> STOP)) [] b -> STOP
+
+P4 = P0 ; P1
+
+P4_inv = P1 ; P0
+
+P5 = P4 \ {a,b} 
+
+P6 =
+  (         (a -> b -> SKIP)
+
+  [| {b} |] (b -> c -> SKIP)
+  )
+; d -> STOP
+
+P7 = e?x:X ->  (x < 3 & a -> f!x -> STOP)
+
+P8 = ((a -> SKIP ||| b -> SKIP) ; c-> STOP ) [] d -> STOP 
+
+P9 = P0 ||| P0
+
+P10 = (a -> b -> SKIP)  ; c -> STOP
+
+P11 = ||| x : {0..2} @ e.x -> STOP
+
