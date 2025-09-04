@@ -2,6 +2,10 @@
 
 Ce dossier contient les ressources pour les cours IGL501-IGL710
 
+# Plan heddomadaire des lectures et exercices
+
+Voir [le plan ici](https://github.com/MarcFrappierUdeS/igl501/blob/main/plan-hebdomadaire.md)
+
 # Logiciels du cours IGL501-IGL710
 
 ## Tarski UdeS
