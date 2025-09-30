@@ -1,6 +1,10 @@
-MACHINE set
+MACHINE set(k)
+
+CONSTRAINTS
+  k : NAT & k>1
+
 SETS
- E={e1,e2,null}
+ E={e1,e2,e3, null}
 
 VARIABLES S,nullPermis
 
@@ -8,6 +12,7 @@ INVARIANT
   S <: E
 & nullPermis = FALSE => null /: S 
 & nullPermis : BOOL
+& card(S) <= k
 
 INITIALISATION S := {} || nullPermis := FALSE
 
@@ -25,6 +30,7 @@ b <--  Add(e) =
   PRE
       e : E
     & (e = null => nullPermis = TRUE)
+    & card(S \/ {e}) <= k
   THEN
         S := S \/ {e}
     ||  b := bool(e /: S)
