@@ -1,3 +1,14 @@
+# Semaine du 6 octobre - Preuve de correction d'une implémentation avec B et Dafny
+
+- Références
+    - Lire diapositive sur l'implémentation (pages 68 à 73) [Diapositives d'introduction à la méthode B](https://github.com/MarcFrappierUdeS/igl501/blob/main/ref/B/Introduction-B-Gervais-SFSF-2015-02-06.pdf)
+    - Lire Section 3.4 des [Notes de cours de MAT115 sur preuves de programmes](https://marcfrappierudes.github.io/mat115/logique.pdf)
+    - Le livre "The B-Book" de Jean-Raymond Abrial est la référence la plus complète.  Voir les chapitre 9 et 10.  [Il est disponible à la bilbiothèque des sciences](https://usherbrooke.on.worldcat.org/oclc/708360717).
+    - Voir les [exemples d'implémentation en B](https://github.com/MarcFrappierUdeS/igl501/tree/main/ref/B/exemples/raffinement/somme)
+    - [Documentation Dafny](https://github.com/MarcFrappierUdeS/igl501/tree/main/ref/dafny/documents)
+    - Voir les [exemples de preuve de correction avec Dafny](https://github.com/MarcFrappierUdeS/igl501/tree/main/ref/dafny/exemples)
+- Travailler sur le [devoir 3](https://github.com/MarcFrappierUdeS/igl501/blob/main/devoirs/devoir3/devoir3.pdf)
+
 # Semaine du 29 septembre - La méthode B : Raffinement
 
 - Références
