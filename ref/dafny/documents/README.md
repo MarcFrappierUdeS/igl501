@@ -1,0 +1,5 @@
+- [Site web de Dafny](https://dafny.org/)
+- [Plugin Dafny pour Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=dafny-lang.ide-vscode)
+- [Tutoriel Dafny](https://dafny.org/latest/OnlineTutorial/guide)
+- [Résumé syntaxe Dafny](https://github.com/MarcFrappierUdeS/igl501/blob/main/ref/dafny/documents/R%C3%A9sum%C3%A9%20de%20la%20syntaxe%20de%20base%20de%20Dafny-utf8-BOM.txt)
+- [Manuel de référence de Dafny](https://dafny.org/latest/DafnyRef/DafnyRef)
