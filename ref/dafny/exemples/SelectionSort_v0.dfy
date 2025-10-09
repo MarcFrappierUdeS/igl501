@@ -2,7 +2,7 @@
 // version v0
 // la spécification vérifie seulement que le vecteur final est trié
 // elle ne vérifie pas que le vecteur de sortie est une permutaiton du vecteur d'entrée
-// (* la version v1 fait cette vérification *)
+// (* la version v2 fait cette vérification *)
 
 predicate sorted(a: array<int>, i : int, j : int)
    reads a
