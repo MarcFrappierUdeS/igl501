@@ -2,6 +2,7 @@
 
 - Références
     - Lire diapositive sur l'implémentation (pages 68 à 73) [Diapositives d'introduction à la méthode B](https://github.com/MarcFrappierUdeS/igl501/blob/main/ref/B/Introduction-B-Gervais-SFSF-2015-02-06.pdf)
+    - Lire [diapositives supplémentaires sur l'implémentation en B](https://github.com/MarcFrappierUdeS/igl501/blob/main/ref/B/implementation-B.pdf)
     - Lire Section 3.4 des [Notes de cours de MAT115 sur preuves de programmes](https://marcfrappierudes.github.io/mat115/logique.pdf)
     - Le livre "The B-Book" de Jean-Raymond Abrial est la référence la plus complète.  Voir les chapitre 9 et 10.  [Il est disponible à la bilbiothèque des sciences](https://usherbrooke.on.worldcat.org/oclc/708360717).
     - Voir les [exemples d'implémentation en B](https://github.com/MarcFrappierUdeS/igl501/tree/main/ref/B/exemples/raffinement/somme)
