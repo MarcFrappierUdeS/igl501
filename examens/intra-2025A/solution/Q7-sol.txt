@@ -1,0 +1,44 @@
+Oui, il y a raffinement.
+
+Initialisation
+
+	[y := 0]¬[ANY z WHERE z : NAT THEN x := z END]¬(y : NAT & x = y)
+<=>
+	[y := 0]¬!z.(z : NAT => [x := z]¬(y : NAT & x = y))
+<=>
+	¬!z.(z : NAT => [x := z]¬(0 : NAT & x = 0))
+<=>
+	¬!z.(z : NAT => ¬(0 : NAT & z = 0))
+<=>
+	#z.(¬(z : NAT => ¬(0 : NAT & z = 0)))
+<=>
+	#z.(z : NAT & ¬¬(0 : NAT & z = 0)))
+<=>
+	#z.(z : NAT & (0 : NAT & z = 0)))
+<=>
+	true
+
+Op1
+
+Soit I = x : NAT et J = y:NAT & x=y
+
+Supposons I et J
+
+Montrons
+
+	[IF y = 0 THEN y := 1 ELSE y := 2 END]¬[CHOICE x := 1 OR x := 2 END]¬J
+<=>
+	[IF y = 0 THEN y := 1 ELSE y := 2 END]¬([x := 1]¬J & [x := 2]¬J)
+<=>
+		(y = 0 => [y := 1]¬([x := 1]¬J & [x := 2]¬J))
+	& (y ≠ 0 => [y := 2]¬([x := 1]¬J & [x := 2]¬J))
+<=>
+		(y = 0 => ¬(¬(1:NAT & 1=1) & ¬(1:NAT & 2=1)))
+	& (y ≠ 0 => ¬(¬(2:NAT & 1=2) & ¬(2:NAT & 2=2)))
+<=>
+		(y = 0 => ((1:NAT & 1=1) or (1:NAT & 2=1)))
+	& (y ≠ 0 => ((2:NAT & 1=2) or (2:NAT & 2=2)))
+<=>
+	true
+
+
