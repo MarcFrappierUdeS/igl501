@@ -1,3 +1,18 @@
+/*
+Le système gère des trains sur une voie.  Une voie est divisée en
+segments.  Chaque segment comporte un stationnement. Pour simplifier, les 
+segments sont numérotés de 1 à max_segment. Dans l'état initial, il n'y a 
+aucun train. L'opération ajouter_train(t,s) ajoute un train t dans un 
+segment s. L'opération avancer(t) fait passer un train t au segment 
+suivant.  L'opération stationner(t) stationne un train sur le 
+stationnement d'un segment, afin de laisser passer un autre train. 
+L'opération repartir(t) déplace le train t du stationnement du segment et 
+le remet sur le segment. Il ne doit pas y avoir plus d'un train sur un 
+stationnement. Il ne doit pas y avoir plus d'un train sur un segment. 
+Spécifiez tous les invariants pour assurer la sécurité des trains.
+
+*/
+
 open util/ordering[State] 
 enum Event {init,ajouter, avancer, garer, repartir}
 sig Train {}

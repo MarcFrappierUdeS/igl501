@@ -14,7 +14,7 @@ fact {
 parent = pere + mere
 // pas de cycle dans les parents
 all p : Personne | not (p in p.^parent)
-// pas d'inceste, c'est-à-dire par de parent qui est aussi un ancêtre
+// pas d'inceste, c'est-à-dire pas de parent qui est aussi un ancêtre
 // (grand-parent, ou arrière-grand-parent, ...)
 no p,p' : Personne | p' in (p.parent & p.(parent.^parent))
 // pas d'enfant entre frere et soeur ou cousin
