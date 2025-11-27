@@ -1,0 +1,10 @@
+channel a,b,c,d
+
+P1 = (a -> b -> STOP)  |~|  (c -> d -> STOP)
+P2 = (a -> b -> STOP)  [] (c -> d -> STOP)
+
+assert P1 [T= P2 -- TRUE
+assert P2 [T= P1 -- TRUE
+assert P1 [F= P2 -- TRUE
+assert P2 [F= P1 -- FALSE
+-- bisimulation false

@@ -1,4 +1,4 @@
-nbCoffre = 2
+nbCoffre = 1
 clebanque = 0
 COFFRE = {1..nbCoffre}
 CLE = union(COFFRE,{clebanque})

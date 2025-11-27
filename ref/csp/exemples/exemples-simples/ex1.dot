@@ -1,43 +1,258 @@
-digraph csp_process {
+digraph visited_states {
 graph [nodesep=1.5, ranksep=1.5];
 root [shape=invtriangle, color="#99BF38", fontsize=12, penwidth=2, label="root"];
 
-root -> 37 [style = dotted, color = black, label="start_cspm((P11))", fontsize=12];
+root -> 0 [style = dotted, color = black, label="start_cspm(P0)", fontsize=12];
+root -> 1 [style = dotted, color = black, label="start_cspm(P1)", fontsize=12];
+root -> 2 [style = dotted, color = black, label="start_cspm(P2)", fontsize=12];
+root -> 3 [style = dotted, color = black, label="start_cspm(P2_int)", fontsize=12];
+root -> 4 [style = dotted, color = black, label="start_cspm(P3)", fontsize=12];
+root -> 5 [style = dotted, color = black, label="start_cspm(P4)", fontsize=12];
+root -> 6 [style = dotted, color = black, label="start_cspm(P4_inv)", fontsize=12];
+root -> 7 [style = dotted, color = black, label="start_cspm(P5)", fontsize=12];
+root -> 8 [style = dotted, color = black, label="start_cspm(P6)", fontsize=12];
+root -> 9 [style = dotted, color = black, label="start_cspm(P7)", fontsize=12];
+root -> 10 [style = dotted, color = black, label="start_cspm(P8)", fontsize=12];
+root -> 11 [style = dotted, color = black, label="start_cspm(P9)", fontsize=12];
+root -> 12 [style = dotted, color = black, label="start_cspm(P10)", fontsize=12];
+root -> 13 [style = dotted, color = black, label="start_cspm(P11)", fontsize=12];
 
-37 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: P11"];
+0 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: a-\>b-\>SKIP"];
 
-37 -> 38 [color = "#006391", label="e.0", fontsize=12];
-37 -> 39 [color = "#006391", label="e.1", fontsize=12];
-37 -> 40 [color = "#006391", label="e.2", fontsize=12];
+0 -> 16 [color = "#006391", label="a", fontsize=12];
 
-38 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((e.1-\>STOP) \|\|\| (e.2-\>STOP))"];
+1 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: c-\>d-\>STOP"];
 
-38 -> 41 [color = "#006391", label="e.1", fontsize=12];
-38 -> 42 [color = "#006391", label="e.2", fontsize=12];
+1 -> 17 [color = "#006391", label="c", fontsize=12];
 
-41 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((STOP) \|\|\| (e.2-\>STOP))"];
+2 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (P0) [] (P1)"];
 
-41 -> 43 [color = "#006391", label="e.2", fontsize=12];
+2 -> 16 [color = "#006391", label="a", fontsize=12];
+2 -> 17 [color = "#006391", label="c", fontsize=12];
 
-43 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+3 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (P0) \|~\| (P1)"];
+
+3 -> 0 [color = "#006391", label="tau(int_choice_left)", fontsize=12];
+3 -> 1 [color = "#006391", label="tau(int_choice_right)", fontsize=12];
+
+4 [shape=doubleoctagon, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>STOP) [] (b-\>STOP)"];
+
+4 -> 14 [color = "#006391", label="a", fontsize=12];
+4 -> 15 [color = "#006391", label="b", fontsize=12];
+
+5 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>b-\>SKIP) ; (P1)"];
+
+5 -> 21 [color = "#006391", label="a", fontsize=12];
+
+6 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (c-\>d-\>STOP) ; (P0)"];
+
+6 -> 22 [color = "#006391", label="c", fontsize=12];
+
+7 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (P4)\\(\{a,b\})"];
+
+7 -> 23 [color = "#006391", label="tau(hide(a))", fontsize=12];
+
+8 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>b-\>SKIP [\|\{\|b\|\}\|] b-\>c-\>SKIP) ; (d-\>STOP)"];
+
+8 -> 24 [color = "#006391", label="a", fontsize=12];
+
+9 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: P7-\>__1"];
+
+9 -> 28 [color = "#006391", label="e.1", fontsize=12];
+9 -> 29 [color = "#006391", label="e.2", fontsize=12];
+9 -> 30 [color = "#006391", label="e.3", fontsize=12];
+
+10 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (((a-\>SKIP) \|\|\| (b-\>SKIP)) ; (c-\>STOP)) [] (d-\>STOP)"];
+
+10 -> 31 [color = "#006391", label="a", fontsize=12];
+10 -> 32 [color = "#006391", label="b", fontsize=12];
+10 -> 33 [color = "#006391", label="d", fontsize=12];
+
+11 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>b-\>SKIP) \|\|\| (a-\>b-\>SKIP)"];
+
+11 -> 34 [color = "#006391", label="a", fontsize=12];
+11 -> 34 [color = "#006391", label="a", fontsize=12];
+
+12 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>b-\>SKIP) ; (c-\>STOP)"];
+
+12 -> 36 [color = "#006391", label="a", fontsize=12];
+
+13 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (e.0-\>STOP) \|\|\| ((e.1-\>STOP) \|\|\| (e.2-\>STOP))"];
+
+13 -> 18 [color = "#006391", label="e.0", fontsize=12];
+13 -> 19 [color = "#006391", label="e.1", fontsize=12];
+13 -> 20 [color = "#006391", label="e.2", fontsize=12];
+
+14 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
 
 
-42 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((STOP) \|\|\| (e.1-\>STOP))"];
+15 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
 
-42 -> 43 [color = "#006391", label="e.1", fontsize=12];
 
-39 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: ((STOP) \|\|\| (e.2-\>STOP)) \|\|\| (e.0-\>STOP)"];
+16 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: b-\>SKIP"];
 
-39 -> 44 [color = "#006391", label="e.2", fontsize=12];
-39 -> 41 [color = "#006391", label="e.0", fontsize=12];
+16 -> 37 [color = "#006391", label="b", fontsize=12];
 
-44 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| (e.0-\>STOP)"];
+17 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: d-\>STOP"];
 
-44 -> 43 [color = "#006391", label="e.0", fontsize=12];
+17 -> 38 [color = "#006391", label="d", fontsize=12];
 
-40 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: ((STOP) \|\|\| (e.1-\>STOP)) \|\|\| (e.0-\>STOP)"];
+18 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((e.1-\>STOP) \|\|\| (e.2-\>STOP))"];
 
-40 -> 44 [color = "#006391", label="e.1", fontsize=12];
-40 -> 42 [color = "#006391", label="e.0", fontsize=12];
+18 -> 35 [color = "#006391", label="e.1", fontsize=12];
+18 -> 26 [color = "#006391", label="e.2", fontsize=12];
+
+19 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: ((STOP) \|\|\| (e.2-\>STOP)) \|\|\| (e.0-\>STOP)"];
+
+19 -> 25 [color = "#006391", label="e.2", fontsize=12];
+19 -> 35 [color = "#006391", label="e.0", fontsize=12];
+
+20 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: ((STOP) \|\|\| (e.1-\>STOP)) \|\|\| (e.0-\>STOP)"];
+
+20 -> 25 [color = "#006391", label="e.1", fontsize=12];
+20 -> 26 [color = "#006391", label="e.0", fontsize=12];
+
+21 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (b-\>SKIP) ; (P1)"];
+
+21 -> 1 [color = "#006391", label="b", fontsize=12];
+
+22 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (d-\>STOP) ; (P0)"];
+
+22 -> 38 [color = "#006391", label="d", fontsize=12];
+
+23 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: ((b-\>SKIP) ; (P1))\\(\{\|a,b\|\})"];
+
+23 -> 39 [color = "#006391", label="tau(hide(b))", fontsize=12];
+
+24 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (b-\>SKIP [\|\{\|b\|\}\|] b-\>c-\>SKIP) ; (d-\>STOP)"];
+
+24 -> 40 [color = "#006391", label="b", fontsize=12];
+
+25 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| (e.0-\>STOP)"];
+
+25 -> 27 [color = "#006391", label="e.0", fontsize=12];
+
+26 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((STOP) \|\|\| (e.1-\>STOP))"];
+
+26 -> 27 [color = "#006391", label="e.1", fontsize=12];
+
+27 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+28 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (1\<3)&a-\>f!1-\>STOP"];
+
+28 -> 43 [color = "#006391", label="a", fontsize=12];
+
+29 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (2\<3)&a-\>f!2-\>STOP"];
+
+29 -> 46 [color = "#006391", label="a", fontsize=12];
+
+30 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (3\<3)&a-\>f!3-\>STOP"];
+
+
+31 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (b-\>SKIP) ; (c-\>STOP)"];
+
+31 -> 50 [color = "#006391", label="b", fontsize=12];
+
+32 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>SKIP) ; (c-\>STOP)"];
+
+32 -> 50 [color = "#006391", label="a", fontsize=12];
+
+33 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+34 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (a-\>b-\>SKIP) \|\|\| (b-\>SKIP)"];
+
+34 -> 51 [color = "#006391", label="a", fontsize=12];
+34 -> 0 [color = "#006391", label="b", fontsize=12];
+
+35 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (STOP) \|\|\| ((STOP) \|\|\| (e.2-\>STOP))"];
+
+35 -> 27 [color = "#006391", label="e.2", fontsize=12];
+
+36 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (b-\>SKIP) ; (c-\>STOP)"];
+
+36 -> 52 [color = "#006391", label="b", fontsize=12];
+
+37 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: SKIP"];
+
+37 -> 53 [color = "#006391", label="tick", fontsize=12];
+
+38 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+39 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (P1)\\(\{\|a,b\|\})"];
+
+39 -> 54 [color = "#006391", label="c", fontsize=12];
+
+40 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (SKIP [\|\{\|b\|\}\|] c-\>SKIP) ; (d-\>STOP)"];
+
+40 -> 41 [color = "#006391", label="tau(tick)", fontsize=12];
+40 -> 42 [color = "#006391", label="c", fontsize=12];
+
+41 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (omega [\|\{\|b\|\}\|] c-\>SKIP) ; (d-\>STOP)"];
+
+41 -> 44 [color = "#006391", label="c", fontsize=12];
+
+42 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (SKIP [\|\{\|b\|\}\|] SKIP) ; (d-\>STOP)"];
+
+42 -> 44 [color = "#006391", label="tau(tick)", fontsize=12];
+42 -> 45 [color = "#006391", label="tau(tick)", fontsize=12];
+
+43 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: f!1-\>STOP"];
+
+43 -> 56 [color = "#006391", label="f.1", fontsize=12];
+
+44 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (omega [\|\{\|b\|\}\|] SKIP) ; (d-\>STOP)"];
+
+44 -> 47 [color = "#006391", label="tau(tick)", fontsize=12];
+
+45 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (SKIP [\|\{\|b\|\}\|] omega) ; (d-\>STOP)"];
+
+45 -> 47 [color = "#006391", label="tau(tick)", fontsize=12];
+
+46 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: f!2-\>STOP"];
+
+46 -> 56 [color = "#006391", label="f.2", fontsize=12];
+
+47 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (omega [\|\{\|b\|\}\|] omega) ; (d-\>STOP)"];
+
+47 -> 48 [color = "#006391", label="tau(tick)", fontsize=12];
+
+48 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: d-\>STOP"];
+
+48 -> 49 [color = "#006391", label="d", fontsize=12];
+
+49 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+50 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: c-\>STOP"];
+
+50 -> 57 [color = "#006391", label="c", fontsize=12];
+
+51 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (b-\>SKIP) \|\|\| (b-\>SKIP)"];
+
+51 -> 16 [color = "#006391", label="b", fontsize=12];
+51 -> 16 [color = "#006391", label="b", fontsize=12];
+
+52 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: c-\>STOP"];
+
+52 -> 55 [color = "#006391", label="c", fontsize=12];
+
+53 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: omega"];
+
+
+54 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: (d-\>STOP)\\(\{\|a,b\|\})"];
+
+54 -> 38 [color = "#006391", label="d", fontsize=12];
+
+55 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+56 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
+
+57 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="CSP: STOP"];
+
 
 }

@@ -1,0 +1,13 @@
+nbClient = 2
+nbServeur = 2
+
+CLIENT = {1..nbClient}
+SERVEUR = {1..nbServeur}
+
+channel CaR : CLIENT
+channel RaS : CLIENT.SERVEUR
+channel SaR : CLIENT.SERVEUR
+channel RaC : CLIENT
+
+CR = {| CaR, RaC |}
+RS = {| RaS, SaR |}

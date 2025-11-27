@@ -1,0 +1,42 @@
+nbClient = 2
+nbServeur = 2
+
+CLIENT = {1..nbClient}
+SERVEUR = {1..nbServeur}
+
+channel CaR : CLIENT
+channel RaS : CLIENT.SERVEUR
+channel SaR : CLIENT.SERVEUR
+channel RaC : CLIENT
+
+CR = {| CaR, RaC |}
+RS = {| RaS, SaR |}
+
+Client(i) = CaR!i -> RaC!i -> Client(i)
+
+Repartiteur =  RequeteClient ||| ReponseServeur
+
+RequeteClient = CaR?i:CLIENT -> RaS!i?j:SERVEUR -> RequeteClient
+
+ReponseServeur = SaR?i:CLIENT?j:SERVEUR -> RaC!i -> ReponseServeur
+
+Serveur(j) = RaS?i:CLIENT!j -> SaR!i!j -> Serveur(j)
+
+MAIN =
+    (
+        (||| i : CLIENT @ Client(i))
+    [| CR |]
+        Repartiteur
+    )        
+[| RS |]
+    (||| j : SERVEUR @ Serveur(j))
+
+{-
+assert MAIN |= LTL: "G ([CaR.1] => F ([RaS.1.1] or [RaS.1.2]))"
+assert MAIN |= LTL: "G ([CaR.1] => F [RaC.1])"
+assert MAIN |= LTL: "G ([CaR.2] => F [RaC.2])"
+assert MAIN |= LTL: "GF ([CaR.1])"
+assert MAIN |= LTL: "GF (e(CaR.1))"
+-}
+
+assert MAIN :[ deadlock free [F] ]
