@@ -1,0 +1,23 @@
+IMPLEMENTATION Factoriel_ref
+REFINES Factoriel
+
+OPERATIONS
+
+r <-- factoriel(n) =
+PRE n : 1..k
+THEN
+  VAR i IN
+    r := 1;
+    i := 0;
+    WHILE i < n DO
+      i := i + 1;
+      r := r * i
+    INVARIANT
+      r = PI(z).(z : 1..i | z) & i ∈ 0..n
+    VARIANT
+      n-i
+    END
+  END
+END
+
+END
