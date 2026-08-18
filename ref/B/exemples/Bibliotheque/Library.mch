@@ -21,8 +21,8 @@ MACHINE Library
   ;
 
 SETS
-    MEMBER = {m1,m2}
-  ; BOOK = {b1,b2}
+    MEMBER = {m1}
+  ; BOOK = {b1}
 
 CONCRETE_CONSTANTS
   /* Maximum of books a member can borrow */

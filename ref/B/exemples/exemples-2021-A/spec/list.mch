@@ -2,10 +2,10 @@ MACHINE List(k)
 
 CONSTRAINTS
   k ∈ NAT
-& k = 2
+∧ k = 2
 
 SETS
- E={e1,e2}
+ E={e1}
 
 VARIABLES f
 
@@ -53,3 +53,4 @@ S <-- ToSet =
 C <-- ToCollection =
   C := λx.(x ∈ ran(f) | card(f ▷ {x}))  
 END
+

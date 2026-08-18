@@ -33,14 +33,13 @@ no (s.position.Int  & s.stationnement.Int)
 
 check InvEquivInv2 {
 all s : State | Inv[s] <=> Inv2[s]
-}
+}  for 1 State, 4 Train
 
 pred Inv2[s:State]
 {
-//s.position in Train lone -> lone Int
 all t1:s.position.Int | one t1.(s.position) // position est une fonction
 all t1,t2:s.position.Int | t1.(s.position)=t2.(s.position) => t1=t2 // injective
-s.stationnement in Train lone -> lone Int
+s.stationnement in Train lone -> lone Int // stationnement est injective
 s.trains = s.position.Int  + s.stationnement.Int
 no (s.position.Int  & s.stationnement.Int)
 }
@@ -57,7 +56,7 @@ pred Ajouter[t:Train, p:Int, s,s':State ]
 {
 p > 0
 t not in s.trains
-//p not in Train.(s.position)
+p not in Train.(s.position)
 s'.trains = s.trains + t
 s'.position = s.position + t->p
 s'.stationnement = s.stationnement
@@ -133,21 +132,14 @@ check invariant_trace {
 	TraceValide[]
 =>
 	all s : State | Inv[s]
-} for 5 State, 3 Train
+} for 7 State, 3 Train
 
-check invariant_all_states
+check invariant_inductive_def
 {
 all s : State | Init[s] => Inv2[s]
 
 all s,s' : State | Inv2[s] and Transition[s,s'] => Inv2[s']
 } for 2 State, 3 Train
-
-check invariant_all_states_sans_contrainte
-{
-all s : State | Inv2[s]
-} for 2 State, 3 Train
-
-
 
 check position_injective
 {
