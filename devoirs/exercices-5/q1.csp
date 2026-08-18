@@ -1,3 +1,0 @@
-channel a,b,c,d
-
-P = (((a->SKIP)[|{|a|}|](b->SKIP)) [] c->SKIP);d->STOP
