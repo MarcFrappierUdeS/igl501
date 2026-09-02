@@ -53,6 +53,6 @@
 
 # Semaine du 31 août - Introduction
 
-- Lire [chapitre 1 et 2 de MAT115](https://marcfrappierudes.github.io/mat115/logique.pdf) pour une révision de la logique et des mathématiques discrètes
+- Lire [chapitre 1 et 2 de MAT115](https://github.com/MarcFrappierUdeS/mat115/blob/main/logique.pdf) pour une révision de la logique et des mathématiques discrètes
 - Faire les exercices des chapitres 1 et 2 de MAT115
 
