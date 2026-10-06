@@ -1,0 +1,135 @@
+include "utility.csp"
+--
+-- Specification d'un systeme telephonique en CSP.
+-- Marc Frappier
+-- Université de Sherbrooke
+--
+--
+-- Si deux utilisateurs appellent le même téléphone,
+-- le premier qui a composé le numero obtiens la communication.
+--
+-- Par exemple, pour la séquence
+--     dec!n1,dec!n2,comp!n1!n3,comp!n2!n3!
+-- il y a une seule suite possible:
+--     debutSonnerie!n1,n3!,tonOccupe!n2
+
+
+nbTel = 4
+TELEPHONE = {1..nbTel}
+
+-- actions du système téléphonique
+channel dec, rac, ton, tonOc : TELEPHONE
+channel comp, debSon, finSon, conn, decon: TELEPHONE.TELEPHONE
+
+-- actions internes utilisées pour le contrôle; à masquer dans le comportement final
+channel acq, lib, estDec: TELEPHONE        
+channel estOc, acqPar : TELEPHONE.TELEPHONE
+
+SYNC = {| dec, rac, comp |}
+CTRL = {| acq, acqPar, lib, estOc, estDec |}
+
+Main = (tousAppels [| union(SYNC,CTRL) |] controleTousAppels)
+
+MainEnv = Main \ CTRL
+
+tousAppels = ||| n : TELEPHONE @ appel(n)
+
+controleTousAppels = ||| n : TELEPHONE @ controleAppel(n, true, <>, false)
+
+{-
+ libre == le téléphone n1 n'a pas décroché pour répondre à un autre appel;
+          permet de choisir où dec s'exécute:
+              i) pour appeler quelqu'un, ou bien
+              ii) pour répondre à un appel
+ f == file d'attente de ceux qui ont composé
+ aDec == indique si le téléphone n1 a décroché
+-}
+
+controleAppel(n1, libre, f, aDec) =
+
+-- mise à jour de libre
+      libre             & acq!n1 -> controleAppel(n1,false,f,aDec)
+  []
+      not(libre)        & estOc!n1?n2:TELEPHONE -> controleAppel(n1,libre,removex(f,n2), aDec)
+  []
+      not(libre)        & lib!n1 -> controleAppel(n1,true,f,aDec)
+
+-- mise à jour de f
+  []
+      length(f) < nbTel & comp?n2:TELEPHONE!n1-> controleAppel(n1,libre,f^<n2>,aDec)
+  []
+      ([]n2:TELEPHONE @
+                libre
+            and f != <>
+            and n2 == head(f)
+                        & acqPar!n1!n2 -> controleAppel(n1,false,<>,aDec)
+      )
+  []
+
+-- mise a jour de aDec
+      not(aDec)         & dec!n1 -> controleAppel(n1,libre,f,true)
+  []
+      aDec              & rac!n1 -> controleAppel(n1,libre,f,false)
+  []
+      aDec              & estDec!n1 -> controleAppel(n1,libre,f,aDec)
+
+appel(n1) =
+
+  acq!n1->
+  dec!n1->
+  ton!n1->
+  (
+      rac!n1->
+      lib!n1->
+      appel(n1)
+  []
+      comp!n1?n2:TELEPHONE->
+      (
+          -- n2 est déjà décroché
+          estOc!n2!n1->   -- supprime n1 de la file d'attente de n2
+          estDec!n2->
+          tonOc!n1->
+          rac!n1->
+          lib!n1->
+          appel(n1)
+      []
+          acqPar!n2!n1->
+          debSon!n1!n2->
+          (
+              rac!n1->
+              lib!n1->
+              finSon!n1!n2->
+              lib!n2->
+              appel(n1)
+          []
+              dec!n2->
+              finSon!n1!n2->
+              conn!n1!n2->
+              (
+                  rac!n1->
+                  decon!n1!n2->
+                  lib!n1->
+                  rac!n2->
+                  lib!n2->
+                  appel(n1)
+              []
+                  rac!n2->
+                  decon!n1!n2->
+                  lib!n2->
+                  rac!n1->
+                  lib!n1->
+                  appel(n1)
+              )
+          )
+      )
+  )
+
+-- Dec et rac forme un cycle dans toutes les traces
+assert Main :[ deadlock free [F] ]
+Prop1 = |||n : TELEPHONE @  Prop1Body(n)
+Prop1Body(n) =
+    dec!n ->
+    rac!n ->
+    Prop1Body(n)
+
+assert Prop1  [T= (Main \ union(CTRL,{| ton, tonOc, comp, debSon, finSon, conn, decon |}))

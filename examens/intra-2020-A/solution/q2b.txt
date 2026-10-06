@@ -1,0 +1,32 @@
+Supposons I & P
+
+I =  y : -2..0
+P = x : -2..-1 & x < y
+
+Montrons [CHOICE y:=x OR y:=x+1 END]I
+
+    [CHOICE y:=x OR y:=x+1 END](y : -2..0)
+<=>
+    [y:=x](y : -2..0) & [y:=x+1](y : -2..0)
+<=>
+    (x : -2..0) & (x+1 : -2..0)
+
+Le premier conjuct se déduit comme suit 
+
+    x : -2..0
+<=
+    x : -2..-1
+<=
+    P
+
+Le deuxième conjunct
+
+    x+1 : -2..0
+<=>
+    x : -3 .. -1
+<=
+    x : -2..-1
+<=
+    P
+
+Donc l'invariant est préservé.

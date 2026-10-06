@@ -1,0 +1,35 @@
+REFINEMENT Pile_ref
+REFINES Pile
+VARIABLES v,t
+INVARIANT	
+  v : 1..k --> NAT
+& t : 0..k
+& p = 1..t <| v
+
+INITIALISATION v := (1..k ) * {0} || t := 0
+OPERATIONS
+  Push(e) = PRE e : NAT & t < k THEN v(t+1) := e || t := t+1 END
+; Pop = PRE t > 0 THEN t := t-1 END
+; e <-- Top = PRE t > 0 THEN e := v(t) END
+; Sort =
+    ANY v1
+    WHERE
+        v1 : 1..k +-> NAT
+      & #f.(
+             f : 1..t >-> 1..t
+           & v1 = (f;v) \/ ((t+1)..k <| v)
+           & !(i,j).(i : 1..t & j : 1..t & i < j => v1(i) <= v1(j))
+           )
+    THEN v := v1
+    END
+;  e <-- Max = PRE t > 0 THEN e := max(ran(1..t <| v)) END
+END
+
+
+
+
+
+
+
+
+

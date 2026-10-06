@@ -1,0 +1,10 @@
+channel a,b,c,d
+
+P1 = ((a -> STOP [] a -> STOP)) |~| d -> STOP
+P2 = a -> STOP [] d -> STOP
+P3 = a -> STOP |~| d -> STOP
+
+assert P1 [T= P2 -- TRUE
+assert P1 [T= P3 -- TRUE
+assert P1 [F= P2 -- TRUE
+assert P1 [F= P3 -- FALSE

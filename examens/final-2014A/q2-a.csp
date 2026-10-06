@@ -1,0 +1,16 @@
+datatype CLIENT = c1 | c2
+datatype RESSOURCE = r1 
+
+channel req : CLIENT.RESSOURCE
+channel lib : CLIENT.RESSOURCE
+
+AR = {| req, lib |}
+
+Client(c) = req!c?r:RESSOURCE -> lib!c!r -> Client(c)
+Ressource(r) = req?c:CLIENT!r -> lib!c!r -> Ressource(r)
+
+MAIN =
+        (||| c : CLIENT @ Client(c))
+    [| AR |]
+        (||| r : RESSOURCE @ Ressource(r))
+

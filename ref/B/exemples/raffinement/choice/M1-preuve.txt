@@ -1,0 +1,52 @@
+Raffinement en B
+
+Machine M1
+
+
+op = PRE x <= 0 THEN CHOICE x := 0 OR x := 1 END END
+
+Raffinement
+
+Invariant de collage 
+
+op = x' := 0
+
+L'obligation de preuve est
+
+    I & J & P => P' & [ [s := s'] S' ] not ([S] not (J & s = s' ))
+
+Supposons I & J & P
+
+et montrons
+
+    P' & [ [s := s'] S' ] not ([S] not (J & s = s' ))
+
+Montrons P'
+
+P = x > 0
+
+P'= TRUE
+
+A => TRUE <=> TRUE
+
+Montrons [ [s := s'] S' ] not ([S] not (J & s = s' ))
+
+    [ [s := s'] S' ] not ([S] not (J & s = s' ))
+<=>   < pas de parametre de sortie
+    [ S'] not ([S] not (J))
+<=>
+    [y := 0] not ([CHOICE x := 0 OR x := 1] not (y : INT & x = y))
+<=>
+    [y := 0] not ([x := 0](not (y : INT & x = y)) & [x := 1] not (y : INT & x = y))
+<=>
+    [y := 0] not ((not (y : INT & 0 = y)) & not (y : INT & 1 = y))
+<=>
+    not ((not (y : INT & 0 = 0)) & not (y : INT & 1 = 0))
+<=>
+     ((not not (y : INT & 0 = 0)) or not not (y : INT & 1 = 0))
+<=>
+     (( (y : INT & 0 = 0)) or (y : INT & 1 = 0))
+<=
+     (( (y : INT & 0 = 0))
+<=
+    Hypothèse J contient y : INT

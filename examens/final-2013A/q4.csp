@@ -1,0 +1,40 @@
+nbUser = 3
+USER = {1..nbUser}
+
+-- actions du système téléphonique
+channel accept, decline, cancel, terminate : USER
+channel call: USER.USER
+
+-- actions internes utilisées pour le contrôle; à masquer dans le comportement final
+channel liberer : USER.USER      
+
+SYNC = {| call |}
+CTRL = {| liberer |}
+
+Main = (tousAppels [| union(SYNC,CTRL) |] controleAppel({}))
+
+MainEnv = Main \ CTRL
+
+tousAppels = ||| n : USER @ appel(n)
+
+controleAppel(appelant) =
+
+      [] n1:USER, n2:USER @ empty(inter({n1,n2},appelant)) & call!n1!n2 -> controleAppel(union(appelant,{n1,n2}))
+  []
+      [] n1:USER, n2:USER @ liberer!n1!n2 -> controleAppel(diff(appelant,{n1,n2}))
+
+appel(n1) =
+
+	call!n1?n2:diff(USER,{n1}) ->
+    (
+        decline!n2 -> liberer!n1!n2 -> appel(n1)
+    []
+        cancel!n1 -> liberer!n1!n2 -> appel(n1)
+    []
+        accept!n2 ->
+        (
+            terminate!n1 -> liberer!n1!n2 -> appel(n1)
+        []
+            terminate!n2 -> liberer!n1!n2 -> appel(n1)
+        )
+    )

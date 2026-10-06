@@ -1,0 +1,16 @@
+channel a,b,c,d,e
+
+S0 = a -> S1
+S1 = (b -> S2) [] (d -> S3)
+S2 = c -> S1
+S3 = e -> S3
+
+-- a)
+assert S0 |= LTL: "FG [e]"
+-- b)
+assert S0 |= LTL: "[a] & X([b] & XF [e])"
+
+
+assert S0 |= LTL: "G ([d] => XG[e])"
+assert S0 |= LTL: "G ([b] => X[c])"
+assert S0 |= LTL: "not(FG [e])" -- vérifie que e est accessible dans au moins une trace

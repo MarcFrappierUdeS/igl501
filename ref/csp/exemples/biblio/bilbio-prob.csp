@@ -1,0 +1,112 @@
+include "utility.csp"
+nbMembers = 2
+nbBooks = 2
+MEMBERID = {1..nbMembers}
+BOOKID = {1..nbBooks}
+nullmid = 0
+maxNbLoans = nbBooks-1
+
+channel join, leave : MEMBERID
+channel acquire, discard, renew  : BOOKID
+channel lend, take, cancel, reserve, return : MEMBERID . BOOKID
+
+BSET = {| acquire,discard,lend,renew,return,reserve,take,cancel |}
+MSET = {| join,leave,lend,renew,return,reserve,take,cancel |}
+LOANSET = {| lend,renew,return,take |} 
+RESERVSET = {| reserve,take,cancel |}
+BOOKMEMBERASSOC = union(LOANSET,RESERVSET)
+BOOKCTRLSET = {| reserve, take, cancel, lend, renew,return |}
+MEMBERCTRLSET = {| lend,return,take |}
+
+MEMBER(m) =
+    join!m ->
+    (
+      (||| b : BOOKID @ LOANMEMBER(m,b))
+    [| {| take |} |]
+      (||| b : BOOKID @ RESERVATION(m,b))
+    );
+    leave!m ->
+    MEMBER(m)
+
+LOANMEMBER(m,b) = LOANMEMBERCYCLE(m,b) [] SKIP
+
+LOANMEMBERCYCLE(m,b) = (lend!m!b -> BORROWEDMEMBER(m,b)) [] (take!m!b -> BORROWEDMEMBER(m,b))
+
+BORROWEDMEMBER(m,b) = (renew!b -> BORROWEDMEMBER(m,b)) [] (return!m!b -> LOANMEMBER(m,b))
+
+MEMBERCTRL(m,n) =
+        (n < maxNbLoans      & lend!m?b -> MEMBERCTRL(m,n+1) )
+    []  (n < maxNbLoans      & take!m?b -> MEMBERCTRL(m,n+1) )
+    []  (true                & return!m?b -> MEMBERCTRL(m,n-1) )
+
+BOOK(b) =
+    acquire!b ->
+    (
+      (LOANBOOK(b))
+    [| {| take |} |]
+      (||| m : MEMBERID @ RESERVATION(m,b))
+    );
+    discard!b ->
+    BOOK(b)
+
+LOANBOOK(b) = ([] m : MEMBERID @ LOANBOOKCYCLE(m,b)) [] SKIP
+
+LOANBOOKCYCLE(m,b) =
+    (
+      lend!m!b ->
+      KLEENE_RENEW(m,b);
+      return!m!b ->
+      LOANBOOK(b)
+    )
+  []
+    (
+      take!m!b ->
+      KLEENE_RENEW(m,b);
+      return!m!b ->
+      LOANBOOK(b)
+    )
+
+KLEENE_RENEW(m,b) = (renew!b -> KLEENE_RENEW(m,b)) [] SKIP
+
+RESERVATION(m,b) = (RESERVATIONCYCLE(m,b)) [] SKIP
+
+RESERVATIONCYCLE(m,b) =
+    reserve!m!b ->
+    (
+      (true & take!m!b -> RESERVATION(m,b))
+    []
+      (true & cancel!m!b -> RESERVATION(m,b))
+    )
+
+BOOKCTRL(b,l,cb) =
+        ([] m:MEMBERID @    cb != m  -- the reserver is not the current borrower
+                          and
+                            (
+                              cb != nullmid
+                            or
+                              l != <>
+                            )                     & reserve!m!b -> BOOKCTRL(b,l^<m>,cb))
+    []  ([] m:MEMBERID @ l != <> and m == head(l) & take!m!b -> BOOKCTRL(b,tail(l),m))
+    []  ([] m:MEMBERID @ elem(m,l)                & cancel!m!b -> BOOKCTRL(b,removex(l,m),cb))
+    []  (                l == <>                  & lend?m!b -> BOOKCTRL(b,l,m))
+    []  (                l == <>                  & renew!b -> BOOKCTRL(b,l,cb))
+    []  true                                      & return?m!b -> BOOKCTRL(b,l,nullmid)
+
+ALLBOOKS = ||| b : BOOKID @ BOOK(b)
+
+ALLMEMBERS = ||| m : MEMBERID @ MEMBER(m)
+
+ALLBOOKSCTRL = ||| b : BOOKID @ BOOKCTRL(b,<>,nullmid)
+
+ALLMEMBERSCTRL = ||| m : MEMBERID @ MEMBERCTRL(m,0)
+
+FreeLibrary = ALLBOOKS [| BOOKMEMBERASSOC |] ALLMEMBERS
+
+Main =
+      (
+        FreeLibrary
+      [| BOOKCTRLSET |]
+        ALLBOOKSCTRL
+      )
+    [| MEMBERCTRLSET |]
+      ALLMEMBERSCTRL

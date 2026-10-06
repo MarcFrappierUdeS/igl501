@@ -1,0 +1,16 @@
+Supposons I & P
+
+I =   y : -2..2
+P = TRUE
+
+Montrons [ANY x WHERE x : -1..1 THEN y := x END](y : -2..2)
+
+    [ANY x WHERE x : -1..1 THEN y := x END](y : -2..2)
+<=>
+    !x.(x : -1..1 => [y := x](y : -2..2)
+<=>
+    !x.(x : -1..1 => x : -2..2)
+<=>
+    TRUE
+
+Donc l'invariant est préservé.

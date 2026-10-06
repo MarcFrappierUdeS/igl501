@@ -1,0 +1,18 @@
+REFINEMENT M1_ref
+
+REFINES M1
+
+VARIABLES y
+
+INVARIANT
+  y : INT
+& x = y
+
+INITIALISATION y := 0
+
+OPERATIONS
+
+  op1 = y := 0
+
+END
+

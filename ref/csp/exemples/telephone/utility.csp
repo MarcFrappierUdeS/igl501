@@ -1,0 +1,10 @@
+-- Utility definitions
+
+-- removes x from sequence l
+removex(l,x) =
+    if (l == <>)
+      then <>
+    else if (x == head(l))
+      then tail(l)
+    else
+      <head(l)>^removex(tail(l),x)

@@ -1,0 +1,78 @@
+{
+  "formulas" : [ {
+    "formulaName" : "Formula-0",
+    "question" : "Il existe un petit carré et un grand triangle situés sur la même ligne, à la droite d’un pentagone.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-1",
+    "question" : "Tous les petits triangles sont à gauche des petits carrés.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-2",
+    "question" : "Il existe une ligne où sont  situés tous les carrés; de plus tous ces carrés sont situés entre deux pentagones, \nsitués sur la même ligne que les carrés.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-3",
+    "question" : "Il existe un, et un seul,  petit pentagone; de plus, il est seul sur sa colonne.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-4",
+    "question" : "Chaque pentagone est situé entre deux carrés, sur la même colonne.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-5",
+    "question" : "Il existe au plus deux carrés.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-6",
+    "question" : "Une condition suffisante pour que les pentagones et les triangles soient sur la même ligne est l’existence d’un carré.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-7",
+    "question" : "Une condition nécessaire pour l'existence d'un carré est qu’il n’existe pas de pentagone.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-8",
+    "question" : "8.\tTous les objets sont grands; vous ne pouvez pas utiliser un ∀ pour répondre à cette question.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-9",
+    "question" : "Les objets sont grands ssi ce sont tous des triangles.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-10",
+    "question" : "Les triangles sont toujours seuls sur leur ligne.  Vous ne pouvez pas utiliser  le quantificateur  ∃.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-11",
+    "question" : "11.\tIl n’y a pas de triangle, ou bien il n’y a pas de carré; il ne peut pas y avoir juste des pentagones.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-12",
+    "question" : "Deux objets de même type situés sur la même ligne sont de même taille.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-13",
+    "question" : "Les carrés sont situés sur la même colonne, ou bien la même ligne.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  }, {
+    "formulaName" : "Formula-14",
+    "question" : "Sur chaque ligne, les carrés sont plus petits que les triangles, ou bien plus petits que les pentagones.",
+    "formulaText" : "",
+    "worlds" : [ ]
+  } ]
+}

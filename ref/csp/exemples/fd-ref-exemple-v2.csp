@@ -1,0 +1,51 @@
+channel a,b,c,d
+
+SIGMA = {a,b,c,d}
+
+Main1 = a -> STOP
+Main2 = a -> (b -> STOP [] c -> STOP)
+Main3 = a -> b -> STOP
+
+-- Property : "a" is immediately followed by a "b"
+Spec = a -> (b -> STOP [] CANREFUSE({a,c,d}))
+
+CANREFUSE(S) = (|~|x:S @ x -> STOP)  |~| STOP
+
+-- FAUX : Main1 ne peut accepter b
+assert Spec [F= Main1
+-- VRAI : Main2 peut accepter b
+assert Spec [F= Main2
+-- VRAI : Main3 peut accepter b et autre chose
+assert Spec [F= Main3
+
+Main4 = ((a -> P ; b -> STOP) ||| Q)
+P = c -> P [] SKIP
+Q = d -> d -> Q [] STOP
+
+-- Property : "a" is followed by a "b"
+
+Spec2 = a -> b -> STOP
+
+assert Spec2  ||| CHAOS({d})  [F= Main4 \ {c}
+
+-- Property : scenario a followed by b followed by c est toujours possible
+
+Spec3 = 
+    ANYBUT(SIGMA,a)
+[]  a -> (
+    ANYBUT(SIGMA,b)
+[]  b -> (
+    ANYBUT(SIGMA,c)
+[]  c -> CHAOS(SIGMA)
+))
+
+ANYBUT(S,x) = (|~| y : diff(S,{x}) @ y -> CHAOS(S)) |~| STOP
+
+Main5 = a -> b -> c -> STOP [] b -> c -> STOP
+Main6 = a -> b -> c -> STOP [] a -> c -> STOP
+Main7 = a -> (b -> c -> STOP |~| d->STOP)
+
+assert Spec3 [F= Main5 -- VRAI
+assert Spec3 [F= Main6 -- FAUX : après a peut refuser b, à cause du nondéterminisme de Main6
+assert Spec3 [F= Main7 -- FAUX : après a peut refuser b, à cause du nondéterminisme de Main7
+

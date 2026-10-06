@@ -1,0 +1,20 @@
+IMPLEMENTATION Somme_imp
+REFINES Somme
+
+OPERATIONS
+
+r <-- somme(v) =
+  VAR i IN
+    r := 0;
+    i := 0;
+    WHILE i < k DO
+      i := i + 1;
+      r := r + v(i)
+    INVARIANT
+      r = SIGMA(z).(z : 1..i | v(z)) & i ∈ 0..k
+    VARIANT
+      k-i
+    END
+  END
+
+END
