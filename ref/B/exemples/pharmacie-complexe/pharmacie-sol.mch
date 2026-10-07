@@ -109,8 +109,8 @@ PRE
   ∧ m ∈ medicament
   ∧ (p,m) ∉ allergie
   ∧ ¬ (∃m1.(m1 ∈ medicament ∧ (p,m1) ∈ prescription ∧ (m,m1) ∉ symmetrique(incompatibilite)))
-  ∧ (m ∈ dom(restriction) ⇒ restriction(m) ∈ sexe[{p}])
-  ∧ (m ∈ dom(ageMin) ⇒ p ∈ dom(age) ∧ age(p) ≥ ageMin(m))
+  ∧ (m ∈ dom(restriction) ⇒ {restriction(m)} = sexe[{p}])
+//  ∧ (m ∈ dom(ageMin) ⇒ p ∈ dom(age) ∧ age(p) ≥ ageMin(m))
 THEN
   prescription := prescription ∪ {(p,m)}
 
