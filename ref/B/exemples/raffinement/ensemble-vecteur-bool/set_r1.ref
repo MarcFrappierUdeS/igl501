@@ -24,7 +24,7 @@ OPERATIONS
         PRE
             ee : ELEM
         THEN
-            ff(ee) := FALSE
+            ff(ee) := TRUE /* FALSE erreur */
         END;
 
     rr <-- in(ee) =

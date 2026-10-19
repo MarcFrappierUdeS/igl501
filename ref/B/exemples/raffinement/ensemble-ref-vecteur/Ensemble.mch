@@ -1,6 +1,6 @@
 MACHINE Ensemble
 SETS
-  E={e1,e2,e3}
+  E
 
 CONSTANTS
   k
@@ -13,6 +13,7 @@ VARIABLES e
 
 INVARIANT
   e <: E
+& card(e) <= k
 
 INITIALISATION
   e := {}
