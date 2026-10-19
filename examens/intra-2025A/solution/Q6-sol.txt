@@ -28,7 +28,8 @@ Si x = 1, ce qui satisfait les hypothèses, alors on a
 
 Op2: l'invariant est préservé
 
-P = x < 4
+P = x < 1
+I = x ∈ 0..1 ∧ y ∈ (x)..(x+2)
 
 Supposons I & P et montrons [S]I
 
