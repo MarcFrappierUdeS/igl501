@@ -102,20 +102,20 @@ PROPERTIES
     )
   )
 
-
-
 DEFINITIONS
  
   appartient(x) == ( #i.(i : 1..d & v(i) = x) )
 ;
+/* Invariant de collage : mettre un paramètre pour chaque variable de la machine raffinement et de la machine abstraite, afin de faciliter le calcul des substitutions dans les obligations de preuve */
   J(v,d,e) ==
     (
-        v : 1..k --> E
+      v : 1..k --> E
     & d : 0..k
     & d = card(e) 
     & e = ran((1..d) <| v)
     )
 ;
+// Invariant de la machine abstraite
   I ==
     (
     e <: E

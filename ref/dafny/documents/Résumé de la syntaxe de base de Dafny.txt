@@ -34,11 +34,13 @@ opérateurs booléens
 
 opérateurs arithmétiques comparaisons
 
+    ==  equality
 	<	less than
 	<=	at most
 	>=	at least
 	>	greater than
-	A <= B < C == D <= E
+	A <= B < C == D <= E /* chaining */
+		is equivalent to A <= B & B < C && C == D && D <= E
 
 opérateurs arithmétiques
 
