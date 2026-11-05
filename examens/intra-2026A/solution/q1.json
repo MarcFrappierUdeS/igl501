@@ -1,0 +1,240 @@
+{
+  "formulas" : [ {
+    "formulaName" : "Formula-0",
+    "question" : "Il existe un carré et un triangle situés sur la même ligne, et ils sont plus grands que tous les autres objets.",
+    "formulaText" : "#x.\n(\n  #y.\n  (\n      Square(x)\n    &\n      Triangle(y)\n    &\n      SameRow(x,y)\n    &\n      !z.\n      (\n             z /= x\n           &\n             z /= y\n        =>\n             Smaller(z,x)\n           &\n             Smaller(z,y)\n      )\n  )\n)\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 4,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 6,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 4,
+        "blockSize" : "MEDIUM",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 4,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 6,
+        "blockSize" : "LARGE",
+        "blockType" : "TRIANGLE"
+      } ]
+    }, {
+      "worldName" : "World-1",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 1,
+        "blockSize" : "SMALL",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 1,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "Formula-1",
+    "question" : "Quand un objet est un carré, alors il est plus grand que tous les autres objets sur sa colonne qui ne sont pas des carrés.",
+    "formulaText" : "!x.\n(\n     Square(x)\n  =>\n     !y.\n     (\n            y /= x\n          &\n            SameCol(x,y)\n          &\n            not\n                Square(y)\n       =>\n          Smaller(y,x)\n     )\n)\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 4,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 5,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 6,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 5,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 6,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      } ]
+    }, {
+      "worldName" : "World-1",
+      "worldShouldPass" : false,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 3,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 4,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      } ]
+    } ]
+  }, {
+    "formulaName" : "Formula-2",
+    "question" : "Une condition suffisante pour que les objets d'une ligne soit triés en ordre croissant de taille est l'existence d'un triangle sur cette ligne.",
+    "formulaText" : "!x.\n(\n     Triangle(x)\n  =>\n     !y.\n     (\n       !z.\n       (\n              SameRow(x,y)\n            &\n              SameRow(x,z)\n            &\n              LeftOf(y,z)\n         =>\n            not\n                Smaller(z,y)\n       )\n     )\n)\n",
+    "worlds" : [ {
+      "worldName" : "World-0",
+      "worldShouldPass" : true,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 1,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 2,
+        "blockSize" : "SMALL",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 1,
+        "blockSize" : "SMALL",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 2,
+        "blockSize" : "MEDIUM",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 2,
+        "blockSize" : "LARGE",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 4,
+        "gridPosY" : 0,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 5,
+        "gridPosY" : 0,
+        "blockSize" : "MEDIUM",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 6,
+        "gridPosY" : 0,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      } ]
+    }, {
+      "worldName" : "World-1",
+      "worldShouldPass" : false,
+      "blocks" : [ {
+        "name" : "",
+        "gridPosX" : 0,
+        "gridPosY" : 0,
+        "blockSize" : "MEDIUM",
+        "blockType" : "SQUARE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 0,
+        "blockSize" : "SMALL",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 1,
+        "gridPosY" : 1,
+        "blockSize" : "MEDIUM",
+        "blockType" : "PENTAGON"
+      }, {
+        "name" : "",
+        "gridPosX" : 2,
+        "gridPosY" : 1,
+        "blockSize" : "LARGE",
+        "blockType" : "TRIANGLE"
+      }, {
+        "name" : "",
+        "gridPosX" : 3,
+        "gridPosY" : 1,
+        "blockSize" : "LARGE",
+        "blockType" : "SQUARE"
+      } ]
+    } ]
+  } ]
+}
