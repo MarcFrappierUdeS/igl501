@@ -6,7 +6,7 @@ method Minimum(a: array<int>) returns (j : int)
    ensures 0 <= j < a.Length
    ensures forall k :: 0 <= k < a.Length ==> a[j] <= a[k]
 {
-   var i := 1;
+   var i := 0;
    j := 0;
    while i < a.Length
       invariant 0 <= i <= a.Length
@@ -14,7 +14,7 @@ method Minimum(a: array<int>) returns (j : int)
       invariant forall k :: 0 <= k < i ==> a[j] <= a[k]
       decreases a.Length - i
    {
-      if a[i] < a[j] { j := i; }
+      if a[i] <= a[j] { j := i; }
       i := i+1;
    }
 }
