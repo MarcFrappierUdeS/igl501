@@ -10,9 +10,11 @@ predicate sorted(a: array<int>, i : int, j : int)
    requires a.Length > 0 
 {
     forall k1,k2 ::
-        0 <= k1 < k2 < a.Length && i <= k1 < k2 <= j
+    (
+        (0 <= k1 < k2 < a.Length && i <= k1 < k2 <= j)
       ==>
-        a[k1] <= a[k2]
+        (a[k1] <= a[k2])
+    )
 }
 
 // retourne la position d'un élément minimum dans a entre i et la fin du vecteur

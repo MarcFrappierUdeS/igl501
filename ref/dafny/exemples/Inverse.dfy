@@ -8,9 +8,9 @@ predicate inverse(a: array<int>, b: array<int>, i : int)
    requires a.Length > 0 
 {
     forall x ::
-        0 <= x <= i-1 
+        (0 <= x <= i-1)
       ==>
-        a[x] == b[a.Length-1-x]
+        (a[x] == b[a.Length-1-x])
 }
 
 method Inverser(a: array<int>,b : array<int>)
