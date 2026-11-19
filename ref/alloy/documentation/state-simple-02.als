@@ -32,7 +32,7 @@ s.x >= 0 and s.x <= 1
 
 check InvInit {
 all s : State |
-    Init[s] => Inv[first]
+    Init[s] => Inv[s]
 } for 1 State
 
 check InvInc {
